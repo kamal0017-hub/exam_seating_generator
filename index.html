@@ -118,6 +118,10 @@
       }
       .menu-btn:hover {
         background: var(--primary-container);
+        color: var(--tertiary);
+        font-weight: 900;
+        font-weight: bolder;
+        border-radius: var(--radius);
       }
       .desktop-nav-area {
         display: none;
@@ -131,13 +135,15 @@
         border-radius: 8px;
         color: var(--secondary);
       }
+      
       .nav-links a:hover {
         background: var(--primary-container);
-      }
-      .nav-links .active {
         color: var(--tertiary);
-        font-weight: 700;
-      }
+        font-weight: 800;
+        transition-duration: 0.3s;
+        border-radius: var(--radius);
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08)
+        }
       .profile {
         width: 40px;
         height: 40px;
@@ -175,7 +181,7 @@
       }
       .left-column,
       .right-column,
-       .right-column2 
+      .right-column2 
       {
         display: flex;
         flex-direction: column;
@@ -243,7 +249,7 @@
 
       .btn {
         position: relative;
-        overflow: hidden;
+        overflow: auto;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -561,9 +567,10 @@
         </div>
         <div class="desktop-nav-area">
           <nav class="nav-links">
-            <a href="#">Dashboard</a
-            ><a class="active" href="#generator">Generators</a
-            ><a href="#room-list">Exam Halls</a><a href="#results">Reports</a>
+            <a href="#">Dashboard</a>
+            <a href="generator.html">Generators</a>
+            <a href="#room-list">Exam Halls</a>
+            <a href="#results">Reports</a>
           </nav>
           <div class="profile">
             <span class="material-symbols-outlined">person</span>
@@ -777,7 +784,7 @@
           <p>Exam seating plan generator</p>
         </div>
         <nav class="footer-links">
-          <a href="#generator">Generator</a><a href="#room-list">Rooms</a
+          <a href="generator.html">Generator</a><a href="#room-list">Rooms</a
           ><a href="#results">Results</a>
         </nav>
       </div>
@@ -790,7 +797,7 @@
           <a href="#"
             ><span class="material-symbols-outlined">dashboard</span
             >Dashboard</a
-          ><a class="active" href="#generator"
+          ><a  href="generator.html"
             ><span class="material-symbols-outlined">grid_view</span
             >Generators</a
           ><a href="#room-list"

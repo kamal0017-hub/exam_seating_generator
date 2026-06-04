@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator</title>
+    <style>
+        :root {
+        --tertiary: #39186c;
+        --on-tertiary: #ffffff;
+        --primary-container: #f1f5f9;
+        --on-background: #0b1c30;
+        --surface-container-high: #dce9ff;
+        --surface-bright: #f8f9ff;
+        --surface: #f8f9ff;
+        --surface-container-lowest: #ffffff;
+        --secondary: #567c25;
+        --outline-variant: #c4c7c9;
+        --on-surface: #0b1c30;
+        --on-surface-variant: #0e3832;
+        --error: #ba1a1a;
+        --error-container: #ebb0a9;
+        --success: #183f24;
+        --container-max: 1440px;
+        --gutter: 24px;
+        --radius: 12px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        min-height: 100vh;
+        background: var(--primary-container);
+        color: var(--on-surface);
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+      }
+        .right-column2{
+        align-items: center;
+        background-color: blanchedalmond;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gutter);
+        min-width: 0;
+        }
+        .action-bar{
+        padding: 16px;
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: #f7d7d7;
+        border: 1px solid var(--outline-variant);
+        border-radius: var(--radius);
+        }
+        .btn {
+        position: relative;
+        overflow: auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 700;
+       
+      }
+      .btn:active {
+        transform: scale(0.96);
+      }
+      .btn-primary {
+        color: var(--on-tertiary);
+        background: var(--on-surface-variant);
+      }
+      .btn-primary:hover {
+        opacity: 0.9;
+        background: var(--tertiary);
+        font-weight: 800;
+        transition-duration: 0.1s;
+      }
+      .btn-secondary {
+        color: var(--secondary);
+        background: #fff;
+        border: 1px solid var(--outline-variant);
+      }
+      .btn-secondary:hover,
+      .btn-soft:hover {
+        background: var(--surface-container-high);
+      }
+      .btn-soft {
+        width: 100%;
+        color: var(--tertiary);
+        background: var(--primary-container);
+        border: 1px solid rgba(0, 83, 219, 0.2);
+      }        
+    .card {
+        overflow: auto;
+        background: var(--surface-container-lowest);
+        border: 1px solid var(--outline-variant);
+        border-radius: var(--radius);
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+      }
+      .table-title {
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 600;
+      }
+      .results-header,
+      .results-footer {
+        padding: 18px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        background: var(--surface-bright);
+      }
+      .results-header {
+        border-bottom: 3px solid var(--outline-variant);
+      }
+      .badge {
+        padding: 5px 14px;
+        color: var(--tertiary);
+        background: var(--surface-container-high);
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .table-wrapper {
+        overflow-x: auto;
+      }
+      .empty-state{
+        padding: 28px;
+        color: var(--secondary) !important;
+        text-align: center;
+        background-color: blanchedalmond;
+        font-weight: 500 !important;
+      }
+      .results-footer p {
+        color: var(--secondary);
+      }
+      table {
+        width: 100%;
+        min-width: 640px;
+        border-collapse: collapse;
+        text-align: left;
+      }
+      thead tr {
+        background: rgba(241, 245, 249, 0.65);
+        border-bottom: 1px solid var(--outline-variant);
+      }
+      th,
+      td {
+        padding: 13px 18px;
+      }
+      th {
+        color: var(--secondary);
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.08em;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      tbody tr {
+        border-bottom: 1px solid var(--outline-variant);
+        transition: background 0.2s;
+      }
+      tbody tr:last-child {
+        border-bottom: 0;
+      }
+      tbody tr:hover {
+        background: rgba(223, 236, 250, 0.7);
+      }
+      td:first-child {
+        color: var(--on-background);
+        font-weight: 700;
+      }
+
+    </style>
+</head>
+<body>
+    <section class="right-column2">
+          <div class="action-bar">
+            <div class="button-row">
+              <button
+                class="btn btn-primary"
+                type="button"
+                onclick="generateSeatingPlan()"
+              >
+                <!-- <span class="material-symbols-outlined">settings_suggest</span> -->
+                Generate Plan
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+                onclick="resetAll()"
+              >
+                <!-- <span class="material-symbols-outlined">restart_alt</span> -->
+                Reset
+              </button>
+            </div>
+            <button
+              class="btn btn-secondary"
+              type="button"
+              onclick="window.print()"
+            >
+              <!-- <span class="material-symbols-outlined">picture_as_pdf</span> -->
+              Print
+              / Save PDF
+            </button>
+          </div>
+
+          <div class="card" id="results">
+            <div class="results-header">
+              <h3 class="table-title">Generated Seating Distribution</h3>
+              <span class="badge" id="resultBadge">Draft</span>
+            </div>
+            <div class="table-wrapper">
+              <table id="seatingPlanTable">
+                <thead>
+                  <tr>
+                    <th>Room Number</th>
+                    <th>Seat No.</th>
+                    <th>Roll No.</th>
+                    <th>Class / Stream</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="empty-state">
+                    <td colspan="4">
+                      Add room and class details, then click Generate Plan.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="results-footer">
+              <p id="resultSummary">No seating plan generated yet.</p>
+            </div>
+          </div>
+        </section>
+</body>
+</html>
