@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --tertiary: #39186c;
+            --on-tertiary: #ffffff;
+            --primary-container: #f1f5f9;
+            --on-background: #0b1c30;
+            --surface-container-high: #dce9ff;
+            --surface-bright: #f8f9ff;
+            --surface: #f8f9ff;
+            --surface-container-lowest: #ffffff;
+            --secondary: #567c25;
+            --outline-variant: #c4c7c9;
+            --on-surface: #0b1c30;
+            --on-surface-variant: #0e3832;
+            --error: #ba1a1a;
+            --error-container: #ebb0a9;
+            --success: #183f24;
+            --container-max: 1440px;
+            --gutter: 24px;
+            --radius: 12px;
+            --shadow: 0 12px 32px rgba(57, 24, 108, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 05;
+            background: var(--surface);
+            color: var(--on-background);
+            font-family: arial, sans-serif;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit
+        }
+
+        header {
+            max-width: var(--container-max);
+            margin: 0 auto 22px;
+
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            color: var(--tertiary);
+            font-size: clamp(26px, 4vw, 36px);
+        }
+
+        .subtitle {
+            margin: 1rem;
+            color: var(--on-surface-variant);
+            line-height: 1.6;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: minmax(230px, 290px) 1fr;
+            gap: 20px;
+            max-width: var(--container-max);
+            margin: auto;
+            align-items: start;
+        }
+
+        .panel {
+            padding: 22px;
+            background: var(--surface-container-lowest);
+            border: 1px solid var(--outline-variant);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar {
+            display: grid;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 16px;
+            place-items: center;
+            overflow: hidden;
+            background: var(--surface-container-high);
+            border: 4px solid var(--surface-container-lowest);
+            border-radius: 50%;
+            box-shadow: 0 5px 18px rgba(57, 24, 108, 0.18);
+            color: var(--tertiary);
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-card h2 {
+            margin: 0 0 6px;
+            color: var(--on-surface);
+            font-size: 21px;
+        }
+
+        .role {
+            margin: 0 0 18px;
+            color: var(--on-surface-variant);
+            font-size: 14px;
+        }
+
+        .profile-meta {
+            display: grid;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .profile-meta div {
+            padding: 11px;
+            background: var(--primary-container);
+            border: 1px solid var(--outline-variant);
+            border-radius: var(--radius);
+        }
+
+        .profile-meta span {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--on-surface-variant);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .profile-meta strong {
+            display: block;
+            overflow-wrap: anywhere;
+            color: var(--on-surface);
+            font-size: 13px;
+        }
+
+        .panel h2 {
+            margin: 0 0 18px;
+            color: var(--tertiary);
+            font-size: 21px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--on-surface-variant);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+            background: var(--surface-container-lowest);
+            border: 1px solid var(--outline-variant);
+            border-radius: var(--radius);
+            color: var(--on-surface);
+            outline: none;
+            transition: 0.2s ease;
+
+        }
+
+        input {
+            height: 43px;
+
+        }
+
+        textarea {
+            min-height: 105px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--tertiary);
+            box-shadow: 0 0 0 3px rgba(57, 24, 108, 0.14);
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        input[type="file"]::file-selector-button {
+            margin-right: 10px;
+            padding: 7px 10px;
+            background: var(--surface-container-high);
+            border: 0;
+            border-radius: 8px;
+            color: var(--tertiary);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+
+        }
+
+        .btn {
+            min-height: 42px;
+            padding: 0 16px;
+            border: 0;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+
+        }
+
+        .btn-primary {
+            background: var(--tertiary);
+            color: var(--on-tertiary);
+        }
+
+        .btn-primary:hover {
+            background: #2d1257;
+        }
+
+        .btn-light {
+            background: var(--surface-container-high);
+            color: var(--tertiary);
+        }
+
+        .btn-danger {
+            background: var(--error-container);
+            color: var(--error);
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 16px;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .topbar {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 50;
+            margin-top: 1rem;
+            background: var(--surface-container-lowest);
+            border-bottom: 1px solid var(--outline-variant);
+        }
+
+        .topbar-inner,
+        .brand-area,
+        .desktop-nav-area,
+        .nav-links,
+        .section-title,
+        .button-row,
+        .footer-inner,
+        .footer-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .topbar-inner {
+            min-height: 64px;
+            justify-content: space-between;
+        }
+
+        .brand-area {
+            gap: 16px;
+        }
+
+        .page-shell {
+            width: 100%;
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .brand {
+            color: var(--tertiary);
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 700;
+        }
+
+        .desktop-nav-area {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+
+        }
+
+        .nav-links {
+            gap: 12px;
+        }
+
+        /* ---------- Footer Section ---------- */
+        footer {
+            width: 100%;
+            margin-top: 28px;
+            padding: 24px 0;
+            background: var(--surface-container-lowest);
+            border-top: 1px solid var(--outline-variant);
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 16px;
+            text-align: center;
+        }
+
+        .footer-brand span {
+            color: var(--tertiary);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .footer-brand p {
+            margin: 5px 0 0;
+            color: var(--secondary);
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .footer-links a {
+            padding: 6px 10px;
+            border-radius: 8px;
+            color: var(--secondary);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            background: var(--primary-container);
+            color: var(--tertiary);
+        }
+
+        .nav-links a {
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-container);
+            color: var(--tertiary);
+            font-weight: 800;
+            transition-duration: 0.2s;
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03)
+        }
+
+        .profile {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 999px;
+            color: var(--tertiary);
+            background: var(--surface-container-high);
+            border: 1px solid var(--outline-variant);
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 3px rgba(57, 24, 108, 0);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(106, 34, 214, 0.35);
+            }
+        }
+
+        .avatar:hover {
+            animation: glow 3s ease infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="page-shell topbar-inner">
+            <div class="brand-area">
+                <h1 class="brand">ExamFlow</h1>
+            </div>
+            <div class="desktop-nav-area">
+                <nav class="nav-links">
+                    <a href="index.html">Dashboard</a>
+                    <a href="generator.html">Generators</a>
+                    <a href="index.html">Exam Halls</a>
+                    <a href="generator.html">Reports</a>
+                </nav>
+                <div class="profile"> <a href="profile.html">
+                        <span class="material-symbols-outlined">person</span></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="profile-layout" style="margin-top: 5rem;">
+        <h1>User Profile</h1>
+        <p class="subtitle">Enter and manage your information for the ExamFlow seating generator....</p>
+
+
+        <article class="panel profile-card">
+            <div class="avatar" id="avatarPreview"><img src="KUK LOGO.png"></div>
+            <h2 id="displayName">New User</h2>
+            <p class="role" id="displayRole">Exam Coordinator</p>
+
+            <div class="profile-meta">
+                <div>
+                    <span>Email</span>
+                    <strong id="displayEmail">Not added</strong>
+                </div>
+                <div>
+                    <span>Institution</span>
+                    <strong id="displayInstitution">Not added</strong>
+                </div>
+                <div>
+                    <span>Department</span>
+                    <strong id="displayDepartment">Not added</strong>
+                </div>
+            </div>
+        </article>
+        <article class="panel">
+            <h2>Profile Information</h2>
+            <form id="profileForm">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" placeholder="Enter your name" required />
+                    </div>
+                    <div class="field "><label for="Email">Email Address *</label><input type="email" id="Email"
+                            placeholder="Enter your Email" required /></div>
+                    <div class="field">
+                        <label for="phone">Phone Number</label>
+                        <input id="phone" type="tel" placeholder="+91 98765 98765" />
+                    </div>
+                    <div class="field">
+                        <label for="profileImage">Profile Photo</label>
+                        <input id="profileImage" type="file" accept="image/*" />
+
+                    </div>
+                    <div class="field full">
+                        <label for="bio">About You</label>
+                        <textarea id="bio" placeholder="Write a short introduction..."></textarea>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button type="reset" class="btn btn-danger" onclick="">Clear Profile</button>
+                    <button type="button" class="btn btn-light" onclick="">Load Saved Data</button>
+                    <button type="submit" class="btn btn-primary">Save Profile</button>
+                </div>
+            </form>
+        </article>
+        </section>
+        <footer>
+            <div class="page-shell footer-inner">
+                <div class="footer-brand">
+                    <span>ExamFlow Systems</span>
+                    <p>Exam seating plan generator</p>
+                </div>
+                <nav class="footer-links">
+                    <a href="generator.html">Generator</a><a href="index.html">Rooms</a><a href="#results">Results</a>
+                </nav>
+            </div>
+        </footer>
+
+</body>
+
+</html>
