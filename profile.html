@@ -33,14 +33,15 @@
         }
 
         * {
-            box-sizing: border-box;
-        }
-
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
         body {
             margin: 05;
             background: var(--surface);
             color: var(--on-background);
-            font-family: arial, sans-serif;
+            font-family: "Inter", sans-serif;
         }
 
         button,
@@ -409,15 +410,15 @@
         }
 
         .nav-links a:hover {
-            background: var(--primary-container);
-            color: var(--tertiary);
-            font-weight: 800;
-            transition-duration: 0.2s;
-            border-radius: var(--radius);
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03)
-        }
+      background: var(--primary-container);
+      color: var(--tertiary);
+      font-weight: 800;
+      transition-duration: 0.3s;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+    }
 
-        .profile {
+        .profile .abprofile{
             width: 40px;
             height: 40px;
             display: grid;
@@ -460,7 +461,7 @@
                     <a href="generator.html">Reports</a>
                 </nav>
                 <div class="profile"> <a href="profile.html">
-                        <span class="material-symbols-outlined">person</span></a>
+                        <span class="material-symbols-outlined"><img class="abprofile" src="KUK LOGO.png"></span></a>
                 </div>
             </div>
         </div>
