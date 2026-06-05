@@ -1,466 +1,523 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generator</title>
-    <style>
-      :root {
-        --tertiary: #39186c;
-        --on-tertiary: #ffffff;
-        --primary-container: #f1f5f9;
-        --on-background: #0b1c30;
-        --surface-container-high: #dce9ff;
-        --surface-bright: #f8f9ff;
-        --surface: #f8f9ff;
-        --surface-container-lowest: #ffffff;
-        --secondary: #567c25;
-        --outline-variant: #c4c7c9;
-        --on-surface: #0b1c30;
-        --on-surface-variant: #0e3832;
-        --error: #ba1a1a;
-        --error-container: #ebb0a9;
-        --success: #183f24;
-        --container-max: 1440px;
-        --gutter: 24px;
-        --radius: 12px;
-      }
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      body {
-        min-height: 100vh;
-        background: var(--primary-container);
-        color: var(--on-surface);
-        font-family: "Inter", sans-serif;
-        font-size: 14px;
-        line-height: 20px;
-      }
-      .right-column2 {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        gap: var(--gutter);
-        min-width: 0;
-        padding: 120px 20px 60px;
-      }
-      .btn {
-        position: relative;
-        overflow: auto;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 700;
-      }
-      .btn:active {
-        transform: scale(0.96);
-      }
-      .btn-primary {
-        color: var(--on-tertiary);
-        background: var(--on-surface-variant);
-      }
-      .btn-primary:hover {
-        opacity: 0.9;
-        background: var(--tertiary);
-        font-weight: 800;
-        transition-duration: 0.1s;
-      }
-      .btn-secondary {
-        color: var(--secondary);
-        background: #fff;
-        border: 1px solid var(--outline-variant);
-      }
-      .btn-secondary:hover,
-      .btn-soft:hover {
-        background: var(--surface-container-high);
-      }
-      .btn-soft {
-        width: 100%;
-        color: var(--tertiary);
-        background: var(--primary-container);
-        border: 1px solid rgba(0, 83, 219, 0.2);
-      }
-      .card {
-        width: 100%;
-        overflow: hidden;
-        background: var(--surface-container-lowest);
-        border: 1px solid var(--outline-variant);
-        border-radius: var(--radius);
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-      }
-      .table-title {
-        font-size: 20px;
-        line-height: 28px;
-        font-weight: 600;
-      }
-      .results-header,
-      .results-footer {
-        padding: 18px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        background: var(--surface-bright);
-      }
-      .results-header {
-        border-bottom: 3px solid var(--outline-variant);
-      }
-      .badge {
-        padding: 5px 14px;
-        color: var(--tertiary);
-        background: var(--surface-container-high);
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .table-wrapper {
-        overflow-x: auto;
-      }
-      .empty-state {
-        padding: 28px;
-        color: var(--secondary) !important;
-        text-align: center;
-        font-weight: 500 !important;
-      }
-      .results-footer p {
-        color: var(--secondary);
-      }
-      table {
-        width: 100%;
-        min-width: 640px;
-        border-collapse: collapse;
-        text-align: left;
-      }
-      thead tr {
-        background: rgba(241, 245, 249, 0.65);
-        border-bottom: 1px solid var(--outline-variant);
-      }
-      th,
-      td {
-        padding: 13px 18px;
-      }
-      th {
-        color: var(--secondary);
-        font-size: 12px;
-        line-height: 16px;
-        letter-spacing: 0.08em;
-        font-weight: 500;
-        text-transform: uppercase;
-      }
-      tbody tr {
-        border-bottom: 1px solid var(--outline-variant);
-        transition: background 0.2s;
-      }
-      tbody tr:last-child {
-        border-bottom: 0;
-      }
-      tbody tr:hover {
-        background: rgba(223, 236, 250, 0.7);
-      }
-      td:first-child {
-        color: var(--on-background);
-        font-weight: 700;
-      }
-      .page-shell {
-        width: 100%;
-        max-width: var(--container-max);
-        margin: 0 auto;
-        padding: 0 16px;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --tertiary: #39186c;
+      --on-tertiary: #ffffff;
+      --primary-container: #f1f5f9;
+      --on-background: #0b1c30;
+      --surface-container-high: #dce9ff;
+      --surface-bright: #f8f9ff;
+      --surface: #f8f9ff;
+      --surface-container-lowest: #ffffff;
+      --secondary: #567c25;
+      --outline-variant: #c4c7c9;
+      --on-surface: #0b1c30;
+      --on-surface-variant: #0e3832;
+      --error: #ba1a1a;
+      --error-container: #ebb0a9;
+      --success: #183f24;
+      --container-max: 1440px;
+      --gutter: 24px;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--primary-container);
+      color: var(--on-surface);
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .right-column2 {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gutter);
+      min-width: 0;
+      padding: 120px 20px 60px;
+    }
+
+    .btn {
+      position: relative;
+      overflow: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-primary {
+      color: var(--on-tertiary);
+      background: var(--on-surface-variant);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      background: var(--tertiary);
+      font-weight: 800;
+      transition-duration: 0.1s;
+    }
+
+    .btn-secondary {
+      color: var(--secondary);
+      background: #fff;
+      border: 1px solid var(--outline-variant);
+    }
+
+    .btn-secondary:hover,
+    .btn-soft:hover {
+      background: var(--surface-container-high);
+    }
+
+    .btn-soft {
+      width: 100%;
+      color: var(--tertiary);
+      background: var(--primary-container);
+      border: 1px solid rgba(0, 83, 219, 0.2);
+    }
+
+    .card {
+      width: 100%;
+      overflow: hidden;
+      background: var(--surface-container-lowest);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+    }
+
+    .table-title {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+
+    .results-header,
+    .results-footer {
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface-bright);
+    }
+
+    .results-header {
+      border-bottom: 3px solid var(--outline-variant);
+    }
+
+    .badge {
+      padding: 5px 14px;
+      color: var(--tertiary);
+      background: var(--surface-container-high);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    .empty-state {
+      padding: 28px;
+      color: var(--secondary) !important;
+      text-align: center;
+      font-weight: 500 !important;
+    }
+
+    .results-footer p {
+      color: var(--secondary);
+    }
+
+    table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    thead tr {
+      background: rgba(241, 245, 249, 0.65);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    th,
+    td {
+      padding: 13px 18px;
+    }
+
+    th {
+      color: var(--secondary);
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--outline-variant);
+      transition: background 0.2s;
+    }
+
+    tbody tr:last-child {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background: rgba(223, 236, 250, 0.7);
+    }
+
+    td:first-child {
+      color: var(--on-background);
+      font-weight: 700;
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
       }
 
-      .topbar {
-        position: fixed;
-        inset: 0 0 auto;
-        z-index: 50;
-        margin-top: 1rem;
-        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
-        backdrop-filter: blur(10px);
-        background: var(--surface-container-lowest);
-        border-bottom: 1px solid var(--outline-variant);
+      50% {
+        transform: scale(1.08);
       }
-      .topbar-inner,
-      .brand-area,
-      .desktop-nav-area,
-      .nav-links,
-      .section-title,
-      .button-row,
-      .footer-inner,
-      .footer-links {
-        display: flex;
-        align-items: center;
-      }
-      .topbar-inner {
-        min-height: 64px;
-        justify-content: space-between;
-      }
-      .brand-area {
-        gap: 16px;
-      }
-      .brand {
-        color: var(--tertiary);
-        font-size: 24px;
-        line-height: 32px;
-        font-weight: 700;
-      }
-      .menu-btn {
-        display: inline-flex;
-        padding: 8px;
-        border-radius: 999px;
-        color: var(--tertiary);
-        background: transparent;
-      }
-      .menu-btn:hover {
-        background: var(--primary-container);
-        color: var(--tertiary);
-        font-weight: 900;
-        font-weight: bolder;
-        border-radius: var(--radius);
-      }
+    }
+
+    .badge {
+      animation: pulse 1s ease infinite;
+    }
+
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      margin-top: 1rem;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      backdrop-filter: blur(10px);
+      background: var(--surface-container-lowest);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    .topbar-inner,
+    .brand-area,
+    .desktop-nav-area,
+    .nav-links,
+    .section-title,
+    .button-row,
+    .footer-inner,
+    .footer-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      justify-content: space-between;
+    }
+
+    .brand-area {
+      gap: 16px;
+    }
+
+    .brand {
+      color: var(--tertiary);
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+    }
+
+    .menu-btn {
+      display: inline-flex;
+      padding: 8px;
+      border-radius: 999px;
+      color: var(--tertiary);
+      background: transparent;
+    }
+
+    .menu-btn:hover {
+      background: var(--primary-container);
+      color: var(--tertiary);
+      font-weight: 900;
+      font-weight: bolder;
+      border-radius: var(--radius);
+    }
+
+    .desktop-nav-area {
+      display: none;
+      gap: 24px;
+    }
+
+    .nav-links {
+      gap: 12px;
+    }
+
+    .nav-links a {
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      background: var(--primary-container);
+      color: var(--tertiary);
+      font-weight: 800;
+      transition-duration: 0.3s;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+    }
+
+    .profile {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: var(--tertiary);
+      background: var(--surface-container-high);
+      border: 1px solid var(--outline-variant);
+    }
+
+    .main-content {
+      padding-top: 96px;
+      padding-bottom: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .page-header h2 {
+      color: var(--on-background);
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -0.02em;
+    }
+
+    .page-header p {
+      margin-top: 8px;
+      color: var(--secondary);
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--gutter);
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 24;
+      line-height: 1;
+    }
+
+    @media (min-width: 768px) {
       .desktop-nav-area {
+        display: flex;
+      }
+
+      .menu-btn {
         display: none;
-        gap: 24px;
       }
-      .nav-links {
-        gap: 12px;
-      }
-      .nav-links a {
-        padding: 6px 12px;
-        border-radius: 8px;
-        color: var(--secondary);
-        text-decoration: none;
-      }
+    }
 
-      .nav-links a:hover {
-        background: var(--primary-container);
-        color: var(--tertiary);
-        font-weight: 800;
-        transition-duration: 0.3s;
-        border-radius: var(--radius);
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-      }
-      .profile {
-        width: 40px;
-        height: 40px;
-        display: grid;
-        place-items: center;
-        border-radius: 999px;
-        color: var(--tertiary);
-        background: var(--surface-container-high);
-        border: 1px solid var(--outline-variant);
-      }
-      .main-content {
-        padding-top: 96px;
-        padding-bottom: 64px;
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-      }
-      .page-header h2 {
-        color: var(--on-background);
-        font-size: 32px;
-        line-height: 40px;
-        letter-spacing: -0.02em;
-      }
-      .page-header p {
-        margin-top: 8px;
-        color: var(--secondary);
-        font-size: 16px;
-        line-height: 24px;
-      }
-      .main-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: var(--gutter);
-      }
+    .action-bar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      margin-top: 0;
+      background: #ffffff;
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
+    }
 
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 400,
-          "GRAD" 0,
-          "opsz" 24;
-        line-height: 1;
-      }
-      @media (min-width: 768px) {
-        .desktop-nav-area {
-          display: flex;
-        }
+    .button-row {
+      display: flex;
+      gap: 10px;
+    }
 
-        .menu-btn {
-          display: none;
-        }
-      }
-      .action-bar {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 16px;
-        margin-top: 0;
-        background: #ffffff;
-        border: 1px solid var(--outline-variant);
-        border-radius: var(--radius);
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
-      }
+    @media (max-width: 600px) {
+
+      .action-bar,
       .button-row {
-        display: flex;
-        gap: 10px;
-      }
-      @media (max-width: 600px) {
-        .action-bar,
-        .button-row {
-          flex-direction: column;
-        }
-
-        .btn {
-          width: 100%;
-        }
-      }
-      footer {
-        margin-top: 20px;
-        padding: 24px 0;
-        background: #ffffff;
-        border-top: 1px solid var(--outline-variant);
+        flex-direction: column;
       }
 
+      .btn {
+        width: 100%;
+      }
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 24px 0;
+      background: #ffffff;
+      border-top: 1px solid var(--outline-variant);
+    }
+
+    .footer-inner {
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-brand span {
+      color: var(--tertiary);
+      font-weight: 700;
+    }
+
+    .footer-brand p {
+      margin-top: 4px;
+      color: var(--secondary);
+      font-size: 13px;
+    }
+
+    .footer-links {
+      gap: 18px;
+    }
+
+    .footer-links a {
+      color: var(--secondary);
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: var(--tertiary);
+    }
+
+    @media (max-width: 600px) {
       .footer-inner {
-        justify-content: space-between;
-        gap: 20px;
+        flex-direction: column;
+        align-items: flex-start;
       }
+    }
+  </style>
+</head>
 
-      .footer-brand span {
-        color: var(--tertiary);
-        font-weight: 700;
-      }
-
-      .footer-brand p {
-        margin-top: 4px;
-        color: var(--secondary);
-        font-size: 13px;
-      }
-
-      .footer-links {
-        gap: 18px;
-      }
-
-      .footer-links a {
-        color: var(--secondary);
-        font-size: 13px;
-      }
-
-      .footer-links a:hover {
-        color: var(--tertiary);
-      }
-
-      @media (max-width: 600px) {
-        .footer-inner {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="page-shell topbar-inner">
-        <div class="brand-area">
-          <button
-            class="menu-btn"
-            id="menu-btn"
-            type="button"
-            aria-label="Open menu"
-          >
-            <span class="material-symbols-outlined">menu</span>
-          </button>
-          <h1 class="brand">ExamFlow</h1>
-        </div>
-        <div class="desktop-nav-area">
-          <nav class="nav-links">
-            <a href="index.html">Dashboard</a>
-            <a href="generator.html">Generators</a>
-            <a href="index.html">Exam Halls</a>
-            <a href="#results">Reports</a>
-          </nav>
-          <div class="profile">
-            <span class="material-symbols-outlined">P</span>
-          </div>
+<body>
+  <header class="topbar">
+    <div class="page-shell topbar-inner">
+      <div class="brand-area">
+        <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <h1 class="brand">ExamFlow</h1>
+      </div>
+      <div class="desktop-nav-area">
+        <nav class="nav-links">
+          <a href="index.html">Dashboard</a>
+          <a href="generator.html">Generators</a>
+          <a href="index.html">Exam Halls</a>
+          <a href="#results">Reports</a>
+        </nav>
+        <div class="profile"> <a href="profile.html">
+            <span class="material-symbols-outlined">person</span></a>
         </div>
       </div>
-    </header>
-    <section class="right-column2">
-      <div class="action-bar">
-        <div class="button-row">
-          <button
-            class="btn btn-primary"
-            type="button"
-            onclick="generateSeatingPlan()"
-          >
-            <!-- <span class="material-symbols-outlined">settings_suggest</span> -->
-            Generate Plan
-          </button>
-          <button class="btn btn-secondary" type="button" onclick="resetAll()">
-            <!-- <span class="material-symbols-outlined">restart_alt</span> -->
-            Reset
-          </button>
-        </div>
-        <button
-          class="btn btn-secondary"
-          type="button"
-          onclick="window.print()"
-        >
-          <!-- <span class="material-symbols-outlined">picture_as_pdf</span> -->
-          Print / Save PDF
+    </div>
+  </header>
+  <section class="right-column2">
+    <div class="action-bar">
+      <div class="button-row">
+        <button class="btn btn-primary" type="button" onclick="generateSeatingPlan()">
+          <!-- <span class="material-symbols-outlined">settings_suggest</span> -->
+          Generate Plan
+        </button>
+        <button class="btn btn-secondary" type="button" onclick="resetAll()">
+          <!-- <span class="material-symbols-outlined">restart_alt</span> -->
+          Reset
         </button>
       </div>
+      <button class="btn btn-secondary" type="button" onclick="window.print()">
+        <!-- <span class="material-symbols-outlined">picture_as_pdf</span> -->
+        Print / Save PDF
+      </button>
+    </div>
 
-      <div class="card" id="results">
-        <div class="results-header">
-          <h3 class="table-title">Generated Seating Distribution</h3>
-          <span class="badge" id="resultBadge">Draft</span>
-        </div>
-        <div class="table-wrapper">
-          <table id="seatingPlanTable">
-            <thead>
-              <tr>
-                <th>Room Number</th>
-                <th>Seat No.</th>
-                <th>Roll No.</th>
-                <th>Class / Stream</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="empty-state">
-                <td colspan="4">
-                  Add room and class details, then click Generate Plan.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="results-footer">
-          <p id="resultSummary">No seating plan generated yet.</p>
-        </div>
+    <div class="card" id="results">
+      <div class="results-header">
+        <h3 class="table-title">Generated Seating Distribution</h3>
+        <span class="badge" id="resultBadge">Draft</span>
       </div>
-    </section>
-    <footer>
-      <div class="page-shell footer-inner">
-        <div class="footer-brand">
-          <span>ExamFlow Systems</span>
-          <p>Exam seating plan generator</p>
-        </div>
-        <nav class="footer-links">
-          <a href="generator.html">Generator</a><a href="index.html">Rooms</a
-          ><a href="#results">Results</a>
-        </nav>
+      <div class="table-wrapper">
+        <table id="seatingPlanTable">
+          <thead>
+            <tr>
+              <th>Room Number</th>
+              <th>Seat No.</th>
+              <th>Roll No.</th>
+              <th>Class / Stream</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="empty-state">
+              <td colspan="4">
+                Add room and class details, then click Generate Plan.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </footer>
-  </body>
+      <div class="results-footer">
+        <p id="resultSummary">No seating plan generated yet.</p>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="page-shell footer-inner">
+      <div class="footer-brand">
+        <span>ExamFlow Systems</span>
+        <p>Exam seating plan generator</p>
+      </div>
+      <nav class="footer-links">
+        <a href="generator.html">Generator</a><a href="index.html">Rooms</a><a href="#results">Results</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+
 </html>

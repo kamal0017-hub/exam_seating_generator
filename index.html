@@ -1,1015 +1,1061 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generate Seating Plan | ExamFlow</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --tertiary: #39186c;
-        --on-tertiary: #ffffff;
-        --primary-container: #f1f5f9;
-        --on-background: #0b1c30;
-        --surface-container-high: #dce9ff;
-        --surface-bright: #f8f9ff;
-        --surface: #f8f9ff;
-        --surface-container-lowest: #ffffff;
-        --secondary: #567c25;
-        --outline-variant: #c4c7c9;
-        --on-surface: #0b1c30;
-        --on-surface-variant: #0e3832;
-        --error: #ba1a1a;
-        --error-container: #ebb0a9;
-        --success: #183f24;
-        --container-max: 1440px;
-        --gutter: 24px;
-        --radius: 12px;
-      }
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      body {
-        min-height: 100vh;
-        background: var(--primary-container);
-        color: var(--on-surface);
-        font-family: "Inter", sans-serif;
-        font-size: 14px;
-        line-height: 20px;
-      }
-      button,
-      input {
-        font: inherit;
-      }
-      button {
-        cursor: pointer;
-        border: 0;
-      }
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 400,
-          "GRAD" 0,
-          "opsz" 24;
-        line-height: 1;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate Seating Plan | ExamFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --tertiary: #39186c;
+      --on-tertiary: #ffffff;
+      --primary-container: #f1f5f9;
+      --on-background: #0b1c30;
+      --surface-container-high: #dce9ff;
+      --surface-bright: #f8f9ff;
+      --surface: #f8f9ff;
+      --surface-container-lowest: #ffffff;
+      --secondary: #567c25;
+      --outline-variant: #c4c7c9;
+      --on-surface: #0b1c30;
+      --on-surface-variant: #0e3832;
+      --error: #ba1a1a;
+      --error-container: #ebb0a9;
+      --success: #183f24;
+      --container-max: 1440px;
+      --gutter: 24px;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--primary-container);
+      color: var(--on-surface);
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 24;
+      line-height: 1;
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      margin-top: 1rem;
+      background: var(--surface-container-lowest);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    .topbar-inner,
+    .brand-area,
+    .desktop-nav-area,
+    .nav-links,
+    .section-title,
+    .button-row,
+    .footer-inner,
+    .footer-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      justify-content: space-between;
+    }
+
+    .brand-area {
+      gap: 16px;
+    }
+
+    .brand {
+      color: var(--tertiary);
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+    }
+
+    .menu-btn {
+      display: inline-flex;
+      padding: 8px;
+      border-radius: 999px;
+      color: var(--tertiary);
+      background: transparent;
+    }
+
+    .menu-btn:hover {
+      background: var(--primary-container);
+      color: var(--tertiary);
+      font-weight: 900;
+      font-weight: bolder;
+      border-radius: var(--radius);
+    }
+
+    .desktop-nav-area {
+      display: none;
+      gap: 24px;
+    }
+
+    .nav-links {
+      gap: 12px;
+    }
+
+    .nav-links a {
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: var(--secondary);
+    }
+
+    .nav-links a:hover {
+      background: var(--primary-container);
+      color: var(--tertiary);
+      font-weight: 800;
+      transition-duration: 0.3s;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08)
+    }
+
+    .profile {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: var(--tertiary);
+      background: var(--surface-container-high);
+      border: 1px solid var(--outline-variant);
+    }
+
+    .main-content {
+      padding-top: 96px;
+      padding-bottom: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .page-header h2 {
+      color: var(--on-background);
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -0.02em;
+    }
+
+    .page-header p {
+      margin-top: 8px;
+      color: var(--secondary);
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--gutter);
+    }
+
+    .left-column,
+    .right-column,
+    .right-column2 {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gutter);
+      min-width: 0;
+    }
+
+    .card {
+      overflow: hidden;
+      background: var(--surface-container-lowest);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+    }
+
+    .form-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .section-title {
+      gap: 8px;
+      color: var(--tertiary);
+    }
+
+    .section-title h3,
+    .table-title {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field,
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-group {
+      gap: 16px;
+    }
+
+    .field label {
+      color: var(--on-surface-variant);
+      font-weight: 600;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 1px solid var(--outline-variant);
+      border-radius: 8px;
+      outline: 0;
+      background: #fff;
+      color: var(--on-surface);
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    }
+
+    .field input:focus {
+      border-color: var(--tertiary);
+      box-shadow: 0 0 0 3px rgba(0, 83, 219, 0.18);
+    }
+
+    .btn {
+      position: relative;
+      overflow: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      transition:
+        transform 0.2s,
+        opacity 0.2s,
+        background 0.2s;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-primary {
+      color: var(--on-tertiary);
+      background: var(--tertiary);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      color: var(--secondary);
+      background: #fff;
+      border: 1px solid var(--outline-variant);
+    }
+
+    .btn-secondary:hover,
+    .btn-soft:hover {
+      background: var(--surface-container-high);
+    }
+
+    .btn-soft {
+      width: 100%;
+      color: var(--tertiary);
+      background: var(--primary-container);
+      border: 1px solid rgba(0, 83, 219, 0.2);
+    }
+
+    .action-bar {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius);
+    }
+
+    .button-row {
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .button-row .btn {
+      flex: 1;
+    }
+
+    .status-box {
+      display: none;
+      padding: 16px;
+      gap: 12px;
+      align-items: flex-start;
+      border-radius: var(--radius);
+    }
+
+    .status-box.show {
+      display: flex;
+    }
+
+    .status-box.error {
+      color: var(--error);
+      background: rgba(255, 218, 214, 0.45);
+      border: 1px solid rgba(186, 26, 26, 0.25);
+    }
+
+    .status-box.success {
+      color: var(--success);
+      background: rgba(220, 252, 231, 0.7);
+      border: 1px solid rgba(20, 108, 46, 0.22);
+    }
+
+    .status-box p {
+      color: var(--on-surface-variant);
+      margin-top: 3px;
+    }
+
+    .table-card-header,
+    .results-header,
+    .results-footer {
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface-bright);
+    }
+
+    .table-card-header,
+    .results-header {
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    .badge {
+      padding: 4px 10px;
+      color: var(--tertiary);
+      background: var(--surface-container-high);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    thead tr {
+      background: rgba(241, 245, 249, 0.65);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    th,
+    td {
+      padding: 13px 18px;
+    }
+
+    th {
+      color: var(--secondary);
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--outline-variant);
+      transition: background 0.2s;
+    }
+
+    tbody tr:last-child {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background: rgba(241, 245, 249, 0.7);
+    }
+
+    td:first-child {
+      color: var(--on-background);
+      font-weight: 700;
+    }
+
+    .roll-number {
+      color: var(--tertiary);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+    }
+
+    .room-heading td {
+      color: #fff !important;
+      text-align: center;
+      background: var(--tertiary);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .warning-row td {
+      color: #fff !important;
+      text-align: center;
+      background: var(--error);
+      font-weight: 700;
+    }
+
+    .empty-state td {
+      padding: 28px;
+      color: var(--secondary) !important;
+      text-align: center;
+      font-weight: 500 !important;
+    }
+
+    .results-footer p {
+      color: var(--secondary);
+    }
+
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--outline-variant);
+      background: var(--primary-container);
+    }
+
+    .footer-inner {
+      padding-top: 28px;
+      padding-bottom: 28px;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .footer-brand {
+      text-align: center;
+    }
+
+    .footer-brand span {
+      color: var(--tertiary);
+      font-weight: 700;
+    }
+
+    .footer-brand p,
+    .footer-links a {
+      color: var(--secondary);
+    }
+
+    .footer-links {
+      gap: 20px;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      pointer-events: none;
+      opacity: 0;
+      background: rgba(11, 28, 48, 0.4);
+      transition: opacity 0.3s;
+    }
+
+    .drawer-overlay.open {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .drawer-panel {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 288px;
+      padding: 18px;
+      background: var(--surface);
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
+    }
+
+    .drawer-overlay.open .drawer-panel {
+      transform: translateX(0);
+    }
+
+    .drawer-panel h3 {
+      color: var(--tertiary);
+      margin-bottom: 20px;
+    }
+
+    .drawer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .drawer-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      color: var(--secondary);
+      border-radius: 8px;
+    }
+
+    .drawer-nav a:hover,
+    .drawer-nav .active {
+      color: var(--tertiary);
+      background: var(--surface-container-high);
+    }
+
+    @media (min-width: 768px) {
       .page-shell {
-        width: 100%;
-        max-width: var(--container-max);
-        margin: 0 auto;
-        padding: 0 16px;
+        padding-left: 40px;
+        padding-right: 40px;
       }
 
-      .topbar {
-        position: fixed;
-        inset: 0 0 auto;
-        z-index: 50;
-        margin-top: 1rem;
-        background: var(--surface-container-lowest);
-        border-bottom: 1px solid var(--outline-variant);
-      }
-      .topbar-inner,
-      .brand-area,
-      .desktop-nav-area,
-      .nav-links,
-      .section-title,
-      .button-row,
-      .footer-inner,
-      .footer-links {
-        display: flex;
-        align-items: center;
-      }
-      .topbar-inner {
-        min-height: 64px;
-        justify-content: space-between;
-      }
-      .brand-area {
-        gap: 16px;
-      }
-      .brand {
-        color: var(--tertiary);
-        font-size: 24px;
-        line-height: 32px;
-        font-weight: 700;
-      }
       .menu-btn {
-        display: inline-flex;
-        padding: 8px;
-        border-radius: 999px;
-        color: var(--tertiary);
-        background: transparent;
-      }
-      .menu-btn:hover {
-        background: var(--primary-container);
-        color: var(--tertiary);
-        font-weight: 900;
-        font-weight: bolder;
-        border-radius: var(--radius);
-      }
-      .desktop-nav-area {
         display: none;
-        gap: 24px;
-      }
-      .nav-links {
-        gap: 12px;
-      }
-      .nav-links a {
-        padding: 6px 12px;
-        border-radius: 8px;
-        color: var(--secondary);
-      }
-      
-      .nav-links a:hover {
-        background: var(--primary-container);
-        color: var(--tertiary);
-        font-weight: 800;
-        transition-duration: 0.3s;
-        border-radius: var(--radius);
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08)
-        }
-      .profile {
-        width: 40px;
-        height: 40px;
-        display: grid;
-        place-items: center;
-        border-radius: 999px;
-        color: var(--tertiary);
-        background: var(--surface-container-high);
-        border: 1px solid var(--outline-variant);
       }
 
-      .main-content {
-        padding-top: 96px;
-        padding-bottom: 64px;
+      .desktop-nav-area {
         display: flex;
-        flex-direction: column;
-        gap: 32px;
-      }
-      .page-header h2 {
-        color: var(--on-background);
-        font-size: 32px;
-        line-height: 40px;
-        letter-spacing: -0.02em;
-      }
-      .page-header p {
-        margin-top: 8px;
-        color: var(--secondary);
-        font-size: 16px;
-        line-height: 24px;
-      }
-      .main-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: var(--gutter);
-      }
-      .left-column,
-      .right-column,
-      .right-column2 
-      {
-        display: flex;
-        flex-direction: column;
-        gap: var(--gutter);
-        min-width: 0;
-      }
-
-      .card {
-        overflow: hidden;
-        background: var(--surface-container-lowest);
-        border: 1px solid var(--outline-variant);
-        border-radius: var(--radius);
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-      }
-      .form-card {
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      .section-title {
-        gap: 8px;
-        color: var(--tertiary);
-      }
-      .section-title h3,
-      .table-title {
-        font-size: 20px;
-        line-height: 28px;
-        font-weight: 600;
-      }
-      .two-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-      .field,
-      .field-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .field-group {
-        gap: 16px;
-      }
-      .field label {
-        color: var(--on-surface-variant);
-        font-weight: 600;
-      }
-      .field input {
-        width: 100%;
-        padding: 10px 16px;
-        border: 1px solid var(--outline-variant);
-        border-radius: 8px;
-        outline: 0;
-        background: #fff;
-        color: var(--on-surface);
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
-      }
-      .field input:focus {
-        border-color: var(--tertiary);
-        box-shadow: 0 0 0 3px rgba(0, 83, 219, 0.18);
-      }
-
-      .btn {
-        position: relative;
-        overflow: auto;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 700;
-        transition:
-          transform 0.2s,
-          opacity 0.2s,
-          background 0.2s;
-      }
-      .btn:active {
-        transform: scale(0.96);
-      }
-      .btn-primary {
-        color: var(--on-tertiary);
-        background: var(--tertiary);
-      }
-      .btn-primary:hover {
-        opacity: 0.9;
-      }
-      .btn-secondary {
-        color: var(--secondary);
-        background: #fff;
-        border: 1px solid var(--outline-variant);
-      }
-      .btn-secondary:hover,
-      .btn-soft:hover {
-        background: var(--surface-container-high);
-      }
-      .btn-soft {
-        width: 100%;
-        color: var(--tertiary);
-        background: var(--primary-container);
-        border: 1px solid rgba(0, 83, 219, 0.2);
       }
 
       .action-bar {
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        background: #fff;
-        border: 1px solid var(--outline-variant);
-        border-radius: var(--radius);
-      }
-      .button-row {
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .button-row .btn {
-        flex: 1;
-      }
-
-      .status-box {
-        display: none;
-        padding: 16px;
-        gap: 12px;
-        align-items: flex-start;
-        border-radius: var(--radius);
-      }
-      .status-box.show {
-        display: flex;
-      }
-      .status-box.error {
-        color: var(--error);
-        background: rgba(255, 218, 214, 0.45);
-        border: 1px solid rgba(186, 26, 26, 0.25);
-      }
-      .status-box.success {
-        color: var(--success);
-        background: rgba(220, 252, 231, 0.7);
-        border: 1px solid rgba(20, 108, 46, 0.22);
-      }
-      .status-box p {
-        color: var(--on-surface-variant);
-        margin-top: 3px;
-      }
-
-      .table-card-header,
-      .results-header,
-      .results-footer {
-        padding: 18px 20px;
-        display: flex;
+        flex-direction: row;
         justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        background: var(--surface-bright);
       }
-      .table-card-header,
-      .results-header {
-        border-bottom: 1px solid var(--outline-variant);
+
+      .footer-inner {
+        flex-direction: row;
       }
-      .badge {
-        padding: 4px 10px;
-        color: var(--tertiary);
-        background: var(--surface-container-high);
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .table-wrapper {
-        overflow-x: auto;
-      }
-      table {
-        width: 100%;
-        min-width: 640px;
-        border-collapse: collapse;
+
+      .footer-brand {
         text-align: left;
       }
-      thead tr {
-        background: rgba(241, 245, 249, 0.65);
-        border-bottom: 1px solid var(--outline-variant);
-      }
-      th,
-      td {
-        padding: 13px 18px;
-      }
-      th {
-        color: var(--secondary);
-        font-size: 12px;
-        line-height: 16px;
-        letter-spacing: 0.08em;
-        font-weight: 500;
-        text-transform: uppercase;
-      }
-      tbody tr {
-        border-bottom: 1px solid var(--outline-variant);
-        transition: background 0.2s;
-      }
-      tbody tr:last-child {
-        border-bottom: 0;
-      }
-      tbody tr:hover {
-        background: rgba(241, 245, 249, 0.7);
-      }
-      td:first-child {
-        color: var(--on-background);
-        font-weight: 700;
-      }
-      .roll-number {
-        color: var(--tertiary);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 12px;
-      }
-      .room-heading td {
-        color: #fff !important;
-        text-align: center;
-        background: var(--tertiary);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-      }
-      .warning-row td {
-        color: #fff !important;
-        text-align: center;
-        background: var(--error);
-        font-weight: 700;
-      }
-      .empty-state td {
-        padding: 28px;
-        color: var(--secondary) !important;
-        text-align: center;
-        font-weight: 500 !important;
-      }
-      .results-footer p {
-        color: var(--secondary);
+    }
+
+    @media (min-width: 1024px) {
+      .main-grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
       }
 
-      footer {
-        margin-top: auto;
-        border-top: 1px solid var(--outline-variant);
-        background: var(--primary-container);
+      .left-column {
+        grid-column: span 5;
       }
-      .footer-inner {
-        padding-top: 28px;
-        padding-bottom: 28px;
+
+      .right-column {
+        grid-column: span 7;
+      }
+
+      .right-column2 {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .two-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header h2 {
+        font-size: 25px;
+        line-height: 32px;
+      }
+
+      .results-header,
+      .results-footer {
+        align-items: flex-start;
         flex-direction: column;
-        justify-content: space-between;
-        gap: 12px;
       }
-      .footer-brand {
-        text-align: center;
-      }
-      .footer-brand span {
-        color: var(--tertiary);
-        font-weight: 700;
-      }
-      .footer-brand p,
-      .footer-links a {
-        color: var(--secondary);
-      }
+
       .footer-links {
-        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
       }
 
-      .drawer-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 55;
-        pointer-events: none;
-        opacity: 0;
-        background: rgba(11, 28, 48, 0.4);
-        transition: opacity 0.3s;
+      50% {
+        transform: scale(1.08);
       }
-      .drawer-overlay.open {
-        pointer-events: auto;
-        opacity: 1;
-      }
-      .drawer-panel {
-        position: fixed;
-        inset: 0 auto 0 0;
-        width: 288px;
-        padding: 18px;
-        background: var(--surface);
-        transform: translateX(-100%);
-        transition: transform 0.3s;
-        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
-      }
-      .drawer-overlay.open .drawer-panel {
-        transform: translateX(0);
-      }
-      .drawer-panel h3 {
-        color: var(--tertiary);
-        margin-bottom: 20px;
-      }
-      .drawer-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .drawer-nav a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px;
-        color: var(--secondary);
-        border-radius: 8px;
-      }
-      .drawer-nav a:hover,
-      .drawer-nav .active {
-        color: var(--tertiary);
-        background: var(--surface-container-high);
-      }
+    }
 
-      @media (min-width: 768px) {
-        .page-shell {
-          padding-left: 40px;
-          padding-right: 40px;
-        }
-        .menu-btn {
-          display: none;
-        }
-        .desktop-nav-area {
-          display: flex;
-        }
-        .action-bar {
-          flex-direction: row;
-          justify-content: space-between;
-        }
-        .footer-inner {
-          flex-direction: row;
-        }
-        .footer-brand {
-          text-align: left;
-        }
-      }
-      @media (min-width: 1024px) {
-        .main-grid {
-          grid-template-columns: repeat(12, minmax(0, 1fr));
-        }
-        .left-column {
-          grid-column: span 5;
-        }
-        .right-column {
-          grid-column: span 7;
-        }
-         .right-column2 {
-          grid-column:  span 12;
-         }
-      }
-      @media (max-width: 520px) {
-        .two-columns {
-          grid-template-columns: 1fr;
-        }
-        .page-header h2 {
-          font-size: 25px;
-          line-height: 32px;
-        }
-        .results-header,
-        .results-footer {
-          align-items: flex-start;
-          flex-direction: column;
-        }
-        .footer-links {
-          flex-wrap: wrap;
-          justify-content: center;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="page-shell topbar-inner">
-        <div class="brand-area">
-          <button
-            class="menu-btn"
-            id="menu-btn"
-            type="button"
-            aria-label="Open menu"
-          >
-            <span class="material-symbols-outlined">menu</span>
-          </button>
-          <h1 class="brand">ExamFlow</h1>
-        </div>
-        <div class="desktop-nav-area">
-          <nav class="nav-links">
-            <a href="#">Dashboard</a>
-            <a href="generator.html">Generators</a>
-            <a href="#room-list">Exam Halls</a>
-            <a href="#results">Reports</a>
-          </nav>
-          <div class="profile">
-            <span class="material-symbols-outlined">person</span>
-          </div>
+    .badge {
+      animation: pulse 1s ease infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="page-shell topbar-inner">
+      <div class="brand-area">
+        <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <h1 class="brand">ExamFlow</h1>
+      </div>
+      <div class="desktop-nav-area">
+        <nav class="nav-links">
+          <a href="#">Dashboard</a>
+          <a href="generator.html">Generators</a>
+          <a href="#room-list">Exam Halls</a>
+          <a href="#results">Reports</a>
+        </nav>
+        <div class="profile"> <a href="profile.html">
+            <span class="material-symbols-outlined">person</span></a>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main class="page-shell main-content" id="generator">
-      <section class="page-header">
-        <h2>Generate Seating Plan</h2>
-        <p>
-          Configure room capacities and class distributions to automate your
-          exam seating arrangement.
-        </p>
-      </section>
+  <main class="page-shell main-content" id="generator">
+    <section class="page-header">
+      <h2>Generate Seating Plan</h2>
+      <p>
+        Configure room capacities and class distributions to automate your
+        exam seating arrangement.
+      </p>
+    </section>
 
-      <div class="main-grid">
-        <section class="left-column">
-          <div class="card form-card">
-            <div class="section-title">
-              <span class="material-symbols-outlined">meeting_room</span>
-              <h3>Room Details</h3>
+    <div class="main-grid">
+      <section class="left-column">
+        <div class="card form-card">
+          <div class="section-title">
+            <span class="material-symbols-outlined">meeting_room</span>
+            <h3>Room Details</h3>
+          </div>
+          <div class="two-columns">
+            <div class="field">
+              <label for="roomNumber">Room Number</label><input id="roomNumber" type="text"
+                placeholder="e.g. Hall A-101" />
+            </div>
+            <div class="field">
+              <label for="numberOfSeats">Capacity</label><input id="numberOfSeats" type="number" min="1"
+                placeholder="0" />
+            </div>
+          </div>
+          <button class="btn btn-soft" type="button" onclick="addRoom()">
+            <span class="material-symbols-outlined">add</span>Add Room
+          </button>
+        </div>
+
+        <div class="card form-card">
+          <div class="section-title">
+            <span class="material-symbols-outlined">groups</span>
+            <h3>Class Details</h3>
+          </div>
+          <div class="field-group">
+            <div class="field">
+              <label for="studentClassStream">Class / Stream</label><input id="studentClassStream" type="text"
+                placeholder="e.g. BCA Semester 4" />
             </div>
             <div class="two-columns">
               <div class="field">
-                <label for="roomNumber">Room Number</label
-                ><input
-                  id="roomNumber"
-                  type="text"
-                  placeholder="e.g. Hall A-101"
-                />
+                <label for="totalStudents">Total Students</label><input id="totalStudents" type="number" min="1"
+                  placeholder="0" />
               </div>
               <div class="field">
-                <label for="numberOfSeats">Capacity</label
-                ><input
-                  id="numberOfSeats"
-                  type="number"
-                  min="1"
-                  placeholder="0"
-                />
+                <label for="startingRollNo">Starting Roll No.</label><input id="startingRollNo" type="number" min="0"
+                  placeholder="e.g. 1001" />
               </div>
             </div>
-            <button class="btn btn-soft" type="button" onclick="addRoom()">
-              <span class="material-symbols-outlined">add</span>Add Room
-            </button>
           </div>
-
-          <div class="card form-card">
-            <div class="section-title">
-              <span class="material-symbols-outlined">groups</span>
-              <h3>Class Details</h3>
-            </div>
-            <div class="field-group">
-              <div class="field">
-                <label for="studentClassStream">Class / Stream</label
-                ><input
-                  id="studentClassStream"
-                  type="text"
-                  placeholder="e.g. BCA Semester 4"
-                />
-              </div>
-              <div class="two-columns">
-                <div class="field">
-                  <label for="totalStudents">Total Students</label
-                  ><input
-                    id="totalStudents"
-                    type="number"
-                    min="1"
-                    placeholder="0"
-                  />
-                </div>
-                <div class="field">
-                  <label for="startingRollNo">Starting Roll No.</label
-                  ><input
-                    id="startingRollNo"
-                    type="number"
-                    min="0"
-                    placeholder="e.g. 1001"
-                  />
-                </div>
-              </div>
-            </div>
-            <button class="btn btn-soft" type="button" onclick="addStudent()">
-              <span class="material-symbols-outlined">add</span>Add Class
-            </button>
-          </div>
-
-          <div class="status-box" id="statusBox">
-            <span class="material-symbols-outlined">info</span>
-            <div>
-              <strong id="statusTitle"></strong>
-              <p id="statusText"></p>
-            </div>
-          </div>
-        </section>
-        <section class="right-column">
-          <div class="card" id="room-list">
-            <div class="table-card-header">
-              <h3 class="table-title">Added Rooms</h3>
-              <span class="badge" id="roomCount">0 rooms</span>
-            </div>
-            <div class="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Sr. No.</th>
-                    <th>Room</th>
-                    <th>Capacity</th>
-                  </tr>
-                </thead>
-                <tbody id="roomTableBody">
-                  <tr class="empty-state">
-                    <td colspan="3">No rooms added yet.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="table-card-header">
-              <h3 class="table-title">Added Classes</h3>
-              <span class="badge" id="studentCount">0 classes</span>
-            </div>
-            <div class="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Sr. No.</th>
-                    <th>Class / Stream</th>
-                    <th>Students</th>
-                    <th>Starting Roll</th>
-                  </tr>
-                </thead>
-                <tbody id="studentTableBody">
-                  <tr class="empty-state">
-                    <td colspan="4">No classes added yet.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section class="right-column2">
-          <div class="action-bar">
-            <div class="button-row">
-              <button
-                class="btn btn-primary"
-                type="button"
-                onclick="generateSeatingPlan()"
-              >
-                <span class="material-symbols-outlined">settings_suggest</span
-                >Generate Plan
-              </button>
-              <button
-                class="btn btn-secondary"
-                type="button"
-                onclick="resetAll()"
-              >
-                <span class="material-symbols-outlined">restart_alt</span>Reset
-              </button>
-            </div>
-            <button
-              class="btn btn-secondary"
-              type="button"
-              onclick="window.print()"
-            >
-              <span class="material-symbols-outlined">picture_as_pdf</span>Print
-              / Save PDF
-            </button>
-          </div>
-
-          <div class="card" id="results">
-            <div class="results-header">
-              <h3 class="table-title">Generated Seating Distribution</h3>
-              <span class="badge" id="resultBadge">Draft</span>
-            </div>
-            <div class="table-wrapper">
-              <table id="seatingPlanTable">
-                <thead>
-                  <tr>
-                    <th>Room Number</th>
-                    <th>Seat No.</th>
-                    <th>Roll No.</th>
-                    <th>Class / Stream</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="empty-state">
-                    <td colspan="4">
-                      Add room and class details, then click Generate Plan.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="results-footer">
-              <p id="resultSummary">No seating plan generated yet.</p>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <footer>
-      <div class="page-shell footer-inner">
-        <div class="footer-brand">
-          <span>ExamFlow Systems</span>
-          <p>Exam seating plan generator</p>
+          <button class="btn btn-soft" type="button" onclick="addStudent()">
+            <span class="material-symbols-outlined">add</span>Add Class
+          </button>
         </div>
-        <nav class="footer-links">
-          <a href="generator.html">Generator</a><a href="#room-list">Rooms</a
-          ><a href="#results">Results</a>
-        </nav>
-      </div>
-    </footer>
 
-    <div class="drawer-overlay" id="drawer">
-      <aside class="drawer-panel">
-        <h3>ExamFlow</h3>
-        <nav class="drawer-nav">
-          <a href="#"
-            ><span class="material-symbols-outlined">dashboard</span
-            >Dashboard</a
-          ><a  href="generator.html"
-            ><span class="material-symbols-outlined">grid_view</span
-            >Generators</a
-          ><a href="#room-list"
-            ><span class="material-symbols-outlined">meeting_room</span>Exam
-            Halls</a
-          ><a href="#results"
-            ><span class="material-symbols-outlined">description</span
-            >Reports</a
-          >
-        </nav>
-      </aside>
+        <div class="status-box" id="statusBox">
+          <span class="material-symbols-outlined">info</span>
+          <div>
+            <strong id="statusTitle"></strong>
+            <p id="statusText"></p>
+          </div>
+        </div>
+      </section>
+      <section class="right-column">
+        <div class="card" id="room-list">
+          <div class="table-card-header">
+            <h3 class="table-title">Added Rooms</h3>
+            <span class="badge" id="roomCount">0 rooms</span>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Room</th>
+                  <th>Capacity</th>
+                </tr>
+              </thead>
+              <tbody id="roomTableBody">
+                <tr class="empty-state">
+                  <td colspan="3">No rooms added yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-card-header">
+            <h3 class="table-title">Added Classes</h3>
+            <span class="badge" id="studentCount">0 classes</span>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Class / Stream</th>
+                  <th>Students</th>
+                  <th>Starting Roll</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                <tr class="empty-state">
+                  <td colspan="4">No classes added yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="right-column2">
+        <div class="action-bar">
+          <div class="button-row">
+            <button class="btn btn-primary" type="button" onclick="generateSeatingPlan()">
+              <span class="material-symbols-outlined">settings_suggest</span>Generate Plan
+            </button>
+            <button class="btn btn-secondary" type="button" onclick="resetAll()">
+              <span class="material-symbols-outlined">restart_alt</span>Reset
+            </button>
+          </div>
+          <button class="btn btn-secondary" type="button" onclick="window.print()">
+            <span class="material-symbols-outlined">picture_as_pdf</span>Print
+            / Save PDF
+          </button>
+        </div>
+
+        <div class="card" id="results">
+          <div class="results-header">
+            <h3 class="table-title">Generated Seating Distribution</h3>
+            <span class="badge" id="resultBadge">Draft</span>
+          </div>
+          <div class="table-wrapper">
+            <table id="seatingPlanTable">
+              <thead>
+                <tr>
+                  <th>Room Number</th>
+                  <th>Seat No.</th>
+                  <th>Roll No.</th>
+                  <th>Class / Stream</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="empty-state">
+                  <td colspan="4">
+                    Add room and class details, then click Generate Plan.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="results-footer">
+            <p id="resultSummary">No seating plan generated yet.</p>
+          </div>
+        </div>
+      </section>
     </div>
+  </main>
 
-    <script>
-      let rooms = [];
-      let students = [];
+  <footer>
+    <div class="page-shell footer-inner">
+      <div class="footer-brand">
+        <span>ExamFlow Systems</span>
+        <p>Exam seating plan generator</p>
+      </div>
+      <nav class="footer-links">
+        <a href="generator.html">Generator</a><a href="#room-list">Rooms</a><a href="#results">Results</a>
+      </nav>
+    </div>
+  </footer>
 
-      const roomTableBody = document.getElementById("roomTableBody");
-      const studentTableBody = document.getElementById("studentTableBody");
-      const seatingPlanBody = document.querySelector("#seatingPlanTable tbody");
+  <div class="drawer-overlay" id="drawer">
+    <aside class="drawer-panel">
+      <h3>ExamFlow</h3>
+      <nav class="drawer-nav">
+        <a href="#"><span class="material-symbols-outlined">dashboard</span>Dashboard</a><a href="generator.html"><span
+            class="material-symbols-outlined">grid_view</span>Generators</a><a href="#room-list"><span
+            class="material-symbols-outlined">meeting_room</span>Exam
+          Halls</a><a href="#results"><span class="material-symbols-outlined">description</span>Reports</a>
+      </nav>
+    </aside>
+  </div>
 
-      function showStatus(type, title, text) {
-        const box = document.getElementById("statusBox");
-        box.className = `status-box show ${type}`;
-        box.querySelector(".material-symbols-outlined").textContent =
-          type === "error" ? "warning" : "check_circle";
-        document.getElementById("statusTitle").textContent = title;
-        document.getElementById("statusText").textContent = text;
-      }
+  <script>
+    let rooms = [];
+    let students = [];
 
-      function clearStatus() {
-        document.getElementById("statusBox").className = "status-box";
-      }
+    const roomTableBody = document.getElementById("roomTableBody");
+    const studentTableBody = document.getElementById("studentTableBody");
+    const seatingPlanBody = document.querySelector("#seatingPlanTable tbody");
 
-      function addRoom() {
-        const roomNumber = document.getElementById("roomNumber").value.trim();
-        const numberOfSeats = Number.parseInt(
-          document.getElementById("numberOfSeats").value,
-          10,
+    function showStatus(type, title, text) {
+      const box = document.getElementById("statusBox");
+      box.className = `status-box show ${type}`;
+      box.querySelector(".material-symbols-outlined").textContent =
+        type === "error" ? "warning" : "check_circle";
+      document.getElementById("statusTitle").textContent = title;
+      document.getElementById("statusText").textContent = text;
+    }
+
+    function clearStatus() {
+      document.getElementById("statusBox").className = "status-box";
+    }
+
+    function addRoom() {
+      const roomNumber = document.getElementById("roomNumber").value.trim();
+      const numberOfSeats = Number.parseInt(
+        document.getElementById("numberOfSeats").value,
+        10,
+      );
+      if (
+        !roomNumber ||
+        !Number.isInteger(numberOfSeats) ||
+        numberOfSeats <= 0
+      )
+        return showStatus(
+          "error",
+          "Invalid room details",
+          "Enter a room number and a capacity greater than zero.",
         );
-        if (
-          !roomNumber ||
-          !Number.isInteger(numberOfSeats) ||
-          numberOfSeats <= 0
-        )
-          return showStatus(
-            "error",
-            "Invalid room details",
-            "Enter a room number and a capacity greater than zero.",
-          );
-        rooms.push({ roomNumber, numberOfSeats });
-        document.getElementById("roomNumber").value = "";
-        document.getElementById("numberOfSeats").value = "";
-        updateTables();
-        updateCapacityStatus();
-      }
+      rooms.push({ roomNumber, numberOfSeats });
+      document.getElementById("roomNumber").value = "";
+      document.getElementById("numberOfSeats").value = "";
+      updateTables();
+      updateCapacityStatus();
+    }
 
-      function addStudent() {
-        const classStream = document
-          .getElementById("studentClassStream")
-          .value.trim();
-        const total = Number.parseInt(
-          document.getElementById("totalStudents").value,
-          10,
+    function addStudent() {
+      const classStream = document
+        .getElementById("studentClassStream")
+        .value.trim();
+      const total = Number.parseInt(
+        document.getElementById("totalStudents").value,
+        10,
+      );
+      const startNo = Number.parseInt(
+        document.getElementById("startingRollNo").value,
+        10,
+      );
+      if (
+        !classStream ||
+        !Number.isInteger(total) ||
+        total <= 0 ||
+        !Number.isInteger(startNo)
+      )
+        return showStatus(
+          "error",
+          "Invalid class details",
+          "Enter a class name, total students greater than zero, and a numeric starting roll number.",
         );
-        const startNo = Number.parseInt(
-          document.getElementById("startingRollNo").value,
-          10,
-        );
-        if (
-          !classStream ||
-          !Number.isInteger(total) ||
-          total <= 0 ||
-          !Number.isInteger(startNo)
-        )
-          return showStatus(
-            "error",
-            "Invalid class details",
-            "Enter a class name, total students greater than zero, and a numeric starting roll number.",
-          );
-        students.push({ classStream, total, startNo });
-        document.getElementById("studentClassStream").value = "";
-        document.getElementById("totalStudents").value = "";
-        document.getElementById("startingRollNo").value = "";
-        updateTables();
-        updateCapacityStatus();
-      }
+      students.push({ classStream, total, startNo });
+      document.getElementById("studentClassStream").value = "";
+      document.getElementById("totalStudents").value = "";
+      document.getElementById("startingRollNo").value = "";
+      updateTables();
+      updateCapacityStatus();
+    }
 
-      function updateTables() {
-        roomTableBody.innerHTML = rooms.length
-          ? ""
-          : '<tr class="empty-state"><td colspan="3">No rooms added yet.</td></tr>';
-        rooms.forEach((r, i) =>
-          roomTableBody.insertAdjacentHTML(
-            "beforeend",
-            `<tr><td>${i + 1}</td><td>${r.roomNumber}</td><td>${r.numberOfSeats}</td></tr>`,
-          ),
-        );
-        studentTableBody.innerHTML = students.length
-          ? ""
-          : '<tr class="empty-state"><td colspan="4">No classes added yet.</td></tr>';
-        students.forEach((s, i) =>
-          studentTableBody.insertAdjacentHTML(
-            "beforeend",
-            `<tr><td>${i + 1}</td><td>${s.classStream}</td><td>${s.total}</td><td class="roll-number">${s.startNo}</td></tr>`,
-          ),
-        );
-        document.getElementById("roomCount").textContent =
-          `${rooms.length} room${rooms.length === 1 ? "" : "s"}`;
-        document.getElementById("studentCount").textContent =
-          `${students.length} class${students.length === 1 ? "" : "es"}`;
-      }
+    function updateTables() {
+      roomTableBody.innerHTML = rooms.length
+        ? ""
+        : '<tr class="empty-state"><td colspan="3">No rooms added yet.</td></tr>';
+      rooms.forEach((r, i) =>
+        roomTableBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${i + 1}</td><td>${r.roomNumber}</td><td>${r.numberOfSeats}</td></tr>`,
+        ),
+      );
+      studentTableBody.innerHTML = students.length
+        ? ""
+        : '<tr class="empty-state"><td colspan="4">No classes added yet.</td></tr>';
+      students.forEach((s, i) =>
+        studentTableBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${i + 1}</td><td>${s.classStream}</td><td>${s.total}</td><td class="roll-number">${s.startNo}</td></tr>`,
+        ),
+      );
+      document.getElementById("roomCount").textContent =
+        `${rooms.length} room${rooms.length === 1 ? "" : "s"}`;
+      document.getElementById("studentCount").textContent =
+        `${students.length} class${students.length === 1 ? "" : "es"}`;
+    }
 
-      function updateCapacityStatus() {
-        if (!rooms.length || !students.length) return clearStatus();
-        const capacity = rooms.reduce(
-          (sum, room) => sum + room.numberOfSeats,
-          0,
+    function updateCapacityStatus() {
+      if (!rooms.length || !students.length) return clearStatus();
+      const capacity = rooms.reduce(
+        (sum, room) => sum + room.numberOfSeats,
+        0,
+      );
+      const totalStudents = students.reduce(
+        (sum, group) => sum + group.total,
+        0,
+      );
+      if (totalStudents > capacity)
+        showStatus(
+          "error",
+          "Room-capacity validation",
+          `The total student count (${totalStudents}) exceeds the combined room capacity (${capacity}). Add more rooms or reduce the class sizes.`,
         );
-        const totalStudents = students.reduce(
-          (sum, group) => sum + group.total,
-          0,
+      else
+        showStatus(
+          "success",
+          "Capacity check passed",
+          `The added rooms provide ${capacity} seats for ${totalStudents} students.`,
         );
-        if (totalStudents > capacity)
-          showStatus(
-            "error",
-            "Room-capacity validation",
-            `The total student count (${totalStudents}) exceeds the combined room capacity (${capacity}). Add more rooms or reduce the class sizes.`,
-          );
-        else
-          showStatus(
-            "success",
-            "Capacity check passed",
-            `The added rooms provide ${capacity} seats for ${totalStudents} students.`,
-          );
-      }
+    }
 
-      function generateSeatingPlan() {
-        if (!rooms.length || !students.length)
-          return showStatus(
-            "error",
-            "Details required",
-            "Add at least one room and one class before generating the plan.",
-          );
-        seatingPlanBody.innerHTML = "";
-        const sortedRooms = [...rooms].sort(
-          (a, b) => b.numberOfSeats - a.numberOfSeats,
+    function generateSeatingPlan() {
+      if (!rooms.length || !students.length)
+        return showStatus(
+          "error",
+          "Details required",
+          "Add at least one room and one class before generating the plan.",
         );
-        const sortedGroups = [...students].sort((a, b) => b.total - a.total);
-        const allStudents = [];
-        sortedGroups.forEach((group) => {
-          for (let i = 0; i < group.total; i++)
-            allStudents.push({
-              rollNo: group.startNo + i,
-              classStream: group.classStream,
-            });
-        });
-        let current = 0;
-        sortedRooms.forEach((room) => {
-          seatingPlanBody.insertAdjacentHTML(
-            "beforeend",
-            `<tr class="room-heading"><td colspan="4">Room: ${room.roomNumber} &nbsp; | &nbsp; Capacity: ${room.numberOfSeats}</td></tr>`,
-          );
-          for (
-            let seat = 1;
-            seat <= room.numberOfSeats && current < allStudents.length;
-            seat++
-          ) {
-            const student = allStudents[current++];
-            seatingPlanBody.insertAdjacentHTML(
-              "beforeend",
-              `<tr><td>${room.roomNumber}</td><td>Seat ${seat}</td><td class="roll-number">${student.rollNo}</td><td>${student.classStream}</td></tr>`,
-            );
-          }
-        });
-        const remaining = allStudents.length - current;
-        if (remaining > 0)
-          seatingPlanBody.insertAdjacentHTML(
-            "beforeend",
-            `<tr class="warning-row"><td colspan="4">Warning: ${remaining} student${remaining === 1 ? "" : "s"} could not be seated because the room capacity is insufficient.</td></tr>`,
-          );
-        document.getElementById("resultBadge").textContent = remaining
-          ? "Needs review"
-          : "Ready";
-        document.getElementById("resultSummary").textContent =
-          `${current} of ${allStudents.length} students assigned across ${sortedRooms.length} room${sortedRooms.length === 1 ? "" : "s"}.`;
-        updateCapacityStatus();
-      }
-
-      function resetAll() {
-        rooms = [];
-        students = [];
-        updateTables();
-        clearStatus();
-        seatingPlanBody.innerHTML =
-          '<tr class="empty-state"><td colspan="4">Add room and class details, then click Generate Plan.</td></tr>';
-        document.getElementById("resultBadge").textContent = "Draft";
-        document.getElementById("resultSummary").textContent =
-          "No seating plan generated yet.";
-      }
-
-      const menuBtn = document.getElementById("menu-btn");
-      const drawer = document.getElementById("drawer");
-      menuBtn.addEventListener("click", () => drawer.classList.add("open"));
-      drawer.addEventListener("click", (event) => {
-        if (event.target === drawer) drawer.classList.remove("open");
+      seatingPlanBody.innerHTML = "";
+      const sortedRooms = [...rooms].sort(
+        (a, b) => b.numberOfSeats - a.numberOfSeats,
+      );
+      const sortedGroups = [...students].sort((a, b) => b.total - a.total);
+      const allStudents = [];
+      sortedGroups.forEach((group) => {
+        for (let i = 0; i < group.total; i++)
+          allStudents.push({
+            rollNo: group.startNo + i,
+            classStream: group.classStream,
+          });
       });
-      document
-        .querySelectorAll(".drawer-nav a")
-        .forEach((link) =>
-          link.addEventListener("click", () => drawer.classList.remove("open")),
+      let current = 0;
+      sortedRooms.forEach((room) => {
+        seatingPlanBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr class="room-heading"><td colspan="4">Room: ${room.roomNumber} &nbsp; | &nbsp; Capacity: ${room.numberOfSeats}</td></tr>`,
         );
-    </script>
-  </body>
+        for (
+          let seat = 1;
+          seat <= room.numberOfSeats && current < allStudents.length;
+          seat++
+        ) {
+          const student = allStudents[current++];
+          seatingPlanBody.insertAdjacentHTML(
+            "beforeend",
+            `<tr><td>${room.roomNumber}</td><td>Seat ${seat}</td><td class="roll-number">${student.rollNo}</td><td>${student.classStream}</td></tr>`,
+          );
+        }
+      });
+      const remaining = allStudents.length - current;
+      if (remaining > 0)
+        seatingPlanBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr class="warning-row"><td colspan="4">Warning: ${remaining} student${remaining === 1 ? "" : "s"} could not be seated because the room capacity is insufficient.</td></tr>`,
+        );
+      document.getElementById("resultBadge").textContent = remaining
+        ? "Needs review"
+        : "Ready";
+      document.getElementById("resultSummary").textContent =
+        `${current} of ${allStudents.length} students assigned across ${sortedRooms.length} room${sortedRooms.length === 1 ? "" : "s"}.`;
+      updateCapacityStatus();
+    }
+
+    function resetAll() {
+      rooms = [];
+      students = [];
+      updateTables();
+      clearStatus();
+      seatingPlanBody.innerHTML =
+        '<tr class="empty-state"><td colspan="4">Add room and class details, then click Generate Plan.</td></tr>';
+      document.getElementById("resultBadge").textContent = "Draft";
+      document.getElementById("resultSummary").textContent =
+        "No seating plan generated yet.";
+    }
+
+    const menuBtn = document.getElementById("menu-btn");
+    const drawer = document.getElementById("drawer");
+    menuBtn.addEventListener("click", () => drawer.classList.add("open"));
+    drawer.addEventListener("click", (event) => {
+      if (event.target === drawer) drawer.classList.remove("open");
+    });
+    document
+      .querySelectorAll(".drawer-nav a")
+      .forEach((link) =>
+        link.addEventListener("click", () => drawer.classList.remove("open")),
+      );
+  </script>
+</body>
+
 </html>
