@@ -77,12 +77,12 @@
 
     .btn-primary {
       color: var(--on-tertiary);
-      background: var(--on-surface-variant);
+      background: var(--tertiary);
     }
 
+  
     .btn-primary:hover {
       opacity: 0.9;
-      background: var(--tertiary);
       font-weight: 800;
       transition-duration: 0.1s;
     }
@@ -380,6 +380,34 @@
       display: flex;
       gap: 10px;
     }
+    .status-box {
+      display: none;
+      padding: 16px;
+      gap: 12px;
+      align-items: flex-start;
+      border-radius: var(--radius);
+    }
+
+    .status-box.show {
+      display: flex;
+    }
+
+    .status-box.error {
+      color: var(--error);
+      background: rgba(255, 218, 214, 0.45);
+      border: 1px solid rgba(186, 26, 26, 0.25);
+    }
+
+    .status-box.success {
+      color: var(--success);
+      background: rgba(220, 252, 231, 0.7);
+      border: 1px solid rgba(20, 108, 46, 0.22);
+    }
+
+    .status-box p {
+      color: var(--on-surface-variant);
+      margin-top: 3px;
+    }
 
     @media (max-width: 600px) {
 
@@ -435,6 +463,8 @@
         align-items: flex-start;
       }
     }
+
+
   </style>
 </head>
 
@@ -449,31 +479,39 @@
       </div>
       <div class="desktop-nav-area">
         <nav class="nav-links">
-          <a href="index.html">Dashboard</a>
+          <a href="index.html">HOME</a>
+          <a href="dashboard.html">Dashboard</a>
           <a href="generator.html">Generators</a>
-          <a href="index.html">Exam Halls</a>
+          <a href="dashboard.html">Exam Halls</a>
           <a href="#results">Reports</a>
         </nav>
         <div class="profile"> <a href="profile.html">
-            <span class="material-symbols-outlined"><img src="KUK LOGO.png"></span></a>
+            <span class="material-symbols-outlined"><img src="DPlogo.png"></span></a>
         </div>
       </div>
     </div>
   </header>
   <section class="right-column2">
+    <div class="status-box" id="statusBox">
+          <span class="material-symbols-outlined">info</span>
+          <div>
+            <strong id="statusTitle"></strong>
+            <p id="statusText"></p>
+          </div>
+        </div>
     <div class="action-bar">
       <div class="button-row">
         <button class="btn btn-primary" type="button" onclick="generateSeatingPlan()">
-          <!-- <span class="material-symbols-outlined">settings_suggest</span> -->
+          <span class="material-symbols-outlined">settings_suggest</span>
           Generate Plan
         </button>
         <button class="btn btn-secondary" type="button" onclick="resetAll()">
-          <!-- <span class="material-symbols-outlined">restart_alt</span> -->
+          <span class="material-symbols-outlined">restart_alt</span>
           Reset
         </button>
       </div>
       <button class="btn btn-secondary" type="button" onclick="window.print()">
-        <!-- <span class="material-symbols-outlined">picture_as_pdf</span> -->
+        <span class="material-symbols-outlined">picture_as_pdf</span>
         Print / Save PDF
       </button>
     </div>
@@ -518,6 +556,206 @@
       </nav>
     </div>
   </footer>
+  <script>
+    let rooms = [];
+    let students = [];
+
+    const roomTableBody = document.getElementById("roomTableBody");
+    const studentTableBody = document.getElementById("studentTableBody");
+    const seatingPlanBody = document.querySelector("#seatingPlanTable tbody");
+
+    function showStatus(type, title, text) {
+      const box = document.getElementById("statusBox");
+      box.className = `status-box show ${type}`;
+      box.querySelector(".material-symbols-outlined").textContent =
+        type === "error" ? "warning" : "check_circle";
+      document.getElementById("statusTitle").textContent = title;
+      document.getElementById("statusText").textContent = text;
+    }
+
+    function clearStatus() {
+      document.getElementById("statusBox").className = "status-box";
+    }
+
+    function addRoom() {
+      const roomNumber = document.getElementById("roomNumber").value.trim();
+      const numberOfSeats = Number.parseInt(
+        document.getElementById("numberOfSeats").value,
+        10,
+      );
+      if (
+        !roomNumber ||
+        !Number.isInteger(numberOfSeats) ||
+        numberOfSeats <= 0
+      )
+        return showStatus(
+          "error",
+          "Invalid room details",
+          "Enter a room number and a capacity greater than zero.",
+        );
+      rooms.push({ roomNumber, numberOfSeats });
+      document.getElementById("roomNumber").value = "";
+      document.getElementById("numberOfSeats").value = "";
+      updateTables();
+      updateCapacityStatus();
+    }
+
+    function addStudent() {
+      const classStream = document
+        .getElementById("studentClassStream")
+        .value.trim();
+      const total = Number.parseInt(
+        document.getElementById("totalStudents").value,
+        10,
+      );
+      const startNo = Number.parseInt(
+        document.getElementById("startingRollNo").value,
+        10,
+      );
+      if (
+        !classStream ||
+        !Number.isInteger(total) ||
+        total <= 0 ||
+        !Number.isInteger(startNo)
+      )
+        return showStatus(
+          "error",
+          "Invalid class details",
+          "Enter a class name, total students greater than zero, and a numeric starting roll number.",
+        );
+      students.push({ classStream, total, startNo });
+      document.getElementById("studentClassStream").value = "";
+      document.getElementById("totalStudents").value = "";
+      document.getElementById("startingRollNo").value = "";
+      updateTables();
+      updateCapacityStatus();
+    }
+
+    function updateTables() {
+      roomTableBody.innerHTML = rooms.length
+        ? ""
+        : '<tr class="empty-state"><td colspan="3">No rooms added yet.</td></tr>';
+      rooms.forEach((r, i) =>
+        roomTableBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${i + 1}</td><td>${r.roomNumber}</td><td>${r.numberOfSeats}</td></tr>`,
+        ),
+      );
+      studentTableBody.innerHTML = students.length
+        ? ""
+        : '<tr class="empty-state"><td colspan="4">No classes added yet.</td></tr>';
+      students.forEach((s, i) =>
+        studentTableBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${i + 1}</td><td>${s.classStream}</td><td>${s.total}</td><td class="roll-number">${s.startNo}</td></tr>`,
+        ),
+      );
+      document.getElementById("roomCount").textContent =
+        `${rooms.length} room${rooms.length === 1 ? "" : "s"}`;
+      document.getElementById("studentCount").textContent =
+        `${students.length} class${students.length === 1 ? "" : "es"}`;
+    }
+
+    function updateCapacityStatus() {
+      if (!rooms.length || !students.length) return clearStatus();
+      const capacity = rooms.reduce(
+        (sum, room) => sum + room.numberOfSeats,
+        0,
+      );
+      const totalStudents = students.reduce(
+        (sum, group) => sum + group.total,
+        0,
+      );
+      if (totalStudents > capacity)
+        showStatus(
+          "error",
+          "Room-capacity validation",
+          `The total student count (${totalStudents}) exceeds the combined room capacity (${capacity}). Add more rooms or reduce the class sizes.`,
+        );
+      else
+        showStatus(
+          "success",
+          "Capacity check passed",
+          `The added rooms provide ${capacity} seats for ${totalStudents} students.`,
+        );
+    }
+
+    function generateSeatingPlan() {
+      if (!rooms.length || !students.length)
+        return showStatus(
+          "error",
+          "Details required",
+          "Add at least one room and one class before generating the plan.",
+        );
+      seatingPlanBody.innerHTML = "";
+      const sortedRooms = [...rooms].sort(
+        (a, b) => b.numberOfSeats - a.numberOfSeats,
+      );
+      const sortedGroups = [...students].sort((a, b) => b.total - a.total);
+      const allStudents = [];
+      sortedGroups.forEach((group) => {
+        for (let i = 0; i < group.total; i++)
+          allStudents.push({
+            rollNo: group.startNo + i,
+            classStream: group.classStream,
+          });
+      });
+      let current = 0;
+      sortedRooms.forEach((room) => {
+        seatingPlanBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr class="room-heading"><td colspan="4">Room: ${room.roomNumber} &nbsp; | &nbsp; Capacity: ${room.numberOfSeats}</td></tr>`,
+        );
+        for (
+          let seat = 1;
+          seat <= room.numberOfSeats && current < allStudents.length;
+          seat++
+        ) {
+          const student = allStudents[current++];
+          seatingPlanBody.insertAdjacentHTML(
+            "beforeend",
+            `<tr><td>${room.roomNumber}</td><td>Seat ${seat}</td><td class="roll-number">${student.rollNo}</td><td>${student.classStream}</td></tr>`,
+          );
+        }
+      });
+      const remaining = allStudents.length - current;
+      if (remaining > 0)
+        seatingPlanBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr class="warning-row"><td colspan="4">Warning: ${remaining} student${remaining === 1 ? "" : "s"} could not be seated because the room capacity is insufficient.</td></tr>`,
+        );
+      document.getElementById("resultBadge").textContent = remaining
+        ? "Needs review"
+        : "Ready";
+      document.getElementById("resultSummary").textContent =
+        `${current} of ${allStudents.length} students assigned across ${sortedRooms.length} room${sortedRooms.length === 1 ? "" : "s"}.`;
+      updateCapacityStatus();
+    }
+
+    function resetAll() {
+      rooms = [];
+      students = [];
+      updateTables();
+      clearStatus();
+      seatingPlanBody.innerHTML =
+        '<tr class="empty-state"><td colspan="4">Add room and class details, then click Generate Plan.</td></tr>';
+      document.getElementById("resultBadge").textContent = "Draft";
+      document.getElementById("resultSummary").textContent =
+        "No seating plan generated yet.";
+    }
+
+    const menuBtn = document.getElementById("menu-btn");
+    const drawer = document.getElementById("drawer");
+    menuBtn.addEventListener("click", () => drawer.classList.add("open"));
+    drawer.addEventListener("click", (event) => {
+      if (event.target === drawer) drawer.classList.remove("open");
+    });
+    document
+      .querySelectorAll(".drawer-nav a")
+      .forEach((link) =>
+        link.addEventListener("click", () => drawer.classList.remove("open")),
+      );
+  </script>
 </body>
 
 </html>
