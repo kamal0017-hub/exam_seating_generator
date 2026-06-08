@@ -3,62 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ExamFlow | Exam Seating Plan Generator</title>
-
-    <!-- Google Font -->
+    <title>ExamFlow | Home</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Material Symbols -->
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
       rel="stylesheet"
     />
-
     <style>
       :root {
-        --tertiary: #39186c;
-        --primary-container: #f1f5f9;
-        --surface-container-high: #dce9ff;
-        --surface-container-lowest: #ffffff;
-        --secondary: #567c25;
-        --outline-variant: #c4c7c9;
-        --text-color: #0b1c30;
-        --container-max: 1440px;
+        --primary: #39186c;
+        --primary-dark: #2e1258;
+        --accent: #567c25;
+        --bg: #f1f5f9;
+        --surface: #fff;
+        --surface-soft: #f8f9ff;
+        --soft: #dce9ff;
+        --text: #0b1c30;
+        --muted: #475569;
+        --border: #c4c7c9;
+        --danger: #ba1a1a;
+        --danger-bg: #fff0ee;
+        --success: #183f24;
+        --success-bg: #edf9ef;
+        --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
         --radius: 12px;
+        --max: 1440px;
       }
-
-      /* Reset default browser styles */
-      * {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
-
       html {
         scroll-behavior: smooth;
       }
-
       body {
-        font-family: "Inter", sans-serif;
-        color: var(--text-color);
-        background: var(--primary-container);
-        padding-top: 65px;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
       }
-
       a {
         color: inherit;
         text-decoration: none;
       }
-
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
       button {
         cursor: pointer;
-        border: none;
-        font-family: inherit;
+        border: 0;
       }
-
       .material-symbols-outlined {
         font-variation-settings:
           "FILL" 0,
@@ -67,352 +72,468 @@
           "opsz" 24;
         line-height: 1;
       }
-
-      /* Reusable container */
       .page-shell {
         width: 100%;
-        max-width: var(--container-max);
-        margin: 0 auto;
+        max-width: var(--max);
+        margin: auto;
         padding: 0 16px;
       }
-
-      /* =========================
-       NAVBAR
-    ========================= */
-
+      /* navbar */
       .topbar {
         position: fixed;
         top: 0;
         left: 0;
-        margin-top: 1rem;
-        width: 100%;
-        z-index: 50;
-        background: var(--surface-container-lowest);
-        border-bottom: 1px solid var(--outline-variant);
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+        right: 0;
+        z-index: 1000;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 2px 9px rgba(15, 23, 42, 0.07);
       }
-
-      .topbar-inner,
+      .topbar-inner {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
       .brand-area,
       .desktop-nav-area,
       .nav-links {
         display: flex;
         align-items: center;
       }
-
-      .topbar-inner {
-        min-height: 64px;
-        justify-content: space-between;
-      }
-
       .brand-area {
-        gap: 12px;
+        gap: 10px;
       }
-
       .brand {
-        color: var(--tertiary);
-        font-size: 24px;
-        line-height: 32px;
+        font-size: 22px;
         font-weight: 700;
+        color: var(--primary);
+        letter-spacing: -0.4px;
       }
-
       .menu-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px;
-        color: var(--tertiary);
+        display: inline-grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 9px;
         background: transparent;
-        border-radius: var(--radius);
+        color: var(--primary);
+        transition: 0.2s;
       }
-
-      .menu-btn:hover {
-        background: var(--primary-container);
+      .menu-btn:hover,
+      .menu-btn:focus-visible {
+        background: var(--bg);
+        outline: none;
       }
-
-      /* Desktop navigation */
+      .menu-btn:active {
+        transform: scale(0.94);
+      }
       .desktop-nav-area {
         display: none;
-        gap: 24px;
+        gap: 20px;
       }
-
       .nav-links {
-        gap: 8px;
+        gap: 4px;
       }
-
+      .nav-links a,
+      .mobile-nav-links a {
+        border-radius: 8px;
+        color: var(--accent);
+        font-weight: 600;
+        transition: 0.2s;
+      }
       .nav-links a {
         padding: 8px 12px;
-        color: var(--secondary);
-        font-size: 15px;
-        font-weight: 500;
-        border-radius: 8px;
-        transition: 0.3s;
       }
-
-      .nav-links a:hover {
-        color: var(--tertiary);
-        background: var(--primary-container);
-        font-weight: 700;
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+      .nav-links a:hover,
+      .nav-links a.active,
+      .mobile-nav-links a:hover,
+      .mobile-nav-links a.active {
+        background: var(--soft);
+        color: var(--primary);
       }
-
-      .profile img {
-        display: block;
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
-        border: 1px solid var(--outline-variant);
+      .profile-link img{
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border: 2px solid var(--border);
         border-radius: 50%;
-        background: var(--surface-container-high);
+        background: var(--soft);
+        color: var(--primary);
+        transition: 0.2s;
       }
-
-      /* Mobile dropdown */
+      .profile-link:hover,
+      .profile-link.active {
+        border-color: var(--primary);
+      }
       .mobile-menu {
         display: none;
-        padding: 8px 16px 16px;
-        background: var(--surface-container-lowest);
-        border-top: 1px solid var(--outline-variant);
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        box-shadow: 0 9px 20px rgba(15, 23, 42, 0.1);
       }
-
       .mobile-menu.show {
         display: block;
       }
-
       .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-width: var(--max);
+        margin: auto;
+        padding: 8px 16px 16px;
+      }
+      .mobile-nav-links a {
+        display: block;
+        padding: 11px 14px;
+      }
+      /* shared layout */
+      main {
+        padding-top: 64px;
+      }
+      .section-pad {
+        padding: 48px 0;
+      }
+      .page-header {
+        margin-bottom: 24px;
+      }
+      .eyebrow {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .page-title {
+        color: var(--primary);
+        font-size: clamp(28px, 5vw, 42px);
+        line-height: 1.15;
+      }
+      .page-description {
+        max-width: 760px;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+      }
+      .card-body {
+        padding: 20px;
+      }
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary);
+        font-size: 19px;
+        font-weight: 700;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .field {
         display: flex;
         flex-direction: column;
         gap: 6px;
       }
-
-      .mobile-nav-links a {
-        padding: 10px 12px;
-        color: var(--secondary);
-        border-radius: 8px;
-        transition: 0.3s;
-      }
-
-      .mobile-nav-links a:hover {
-        color: var(--tertiary);
-        background: var(--primary-container);
+      .field label {
+        color: #0e3832;
+        font-size: 13px;
         font-weight: 700;
       }
-
-      /* =========================
-       HERO SECTION
-    ========================= */
-
-      .hero-section {
-        min-height: calc(100vh - 65px);
+      .field input,
+      .field textarea {
+        width: 100%;
+        padding: 11px 13px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        outline: none;
+        transition: 0.2s;
+      }
+      .field textarea {
+        min-height: 104px;
+        resize: vertical;
+      }
+      .field input:focus,
+      .field textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(57, 24, 108, 0.14);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        transition: 0.2s;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+      .btn-light {
+        background: var(--bg);
+        color: var(--primary);
+        border: 1px solid var(--border);
+      }
+      .btn-light:hover {
+        background: var(--soft);
+      }
+      .btn-danger {
+        background: #ffe3df;
+        color: var(--danger);
+        border: 1px solid #f2b6ae;
+      }
+      .btn-full {
+        width: 100%;
+      }
+      .status-box {
+        display: none;
+        gap: 10px;
+        padding: 14px;
+        border-radius: 10px;
+      }
+      .status-box.show {
+        display: flex;
+      }
+      .status-box.error {
+        color: var(--danger);
+        background: var(--danger-bg);
+        border: 1px solid #efb2aa;
+      }
+      .status-box.success {
+        color: var(--success);
+        background: var(--success-bg);
+        border: 1px solid #b7dabc;
+      }
+      .status-box p {
+        margin-top: 2px;
+        color: var(--muted);
+      }
+      .table-header,
+      .table-footer {
         display: flex;
         align-items: center;
-        padding: 64px 0;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px 18px;
+        background: var(--surface-soft);
       }
-      .hero-section2 {
-        min-height: calc(100vh - 65px);
+      .table-header {
+        border-bottom: 1px solid var(--border);
+      }
+      .table-footer {
+        border-top: 1px solid var(--border);
+      }
+      .table-wrapper {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        min-width: 560px;
+        border-collapse: collapse;
+        text-align: left;
+      }
+      th,
+      td {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        color: var(--accent);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      tbody tr:hover {
+        background: #f8fafc;
+      }
+      .empty-state td {
+        text-align: center;
+        color: var(--muted);
+        font-weight: 600;
+        padding: 26px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--soft);
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .actions {
         display: flex;
-        align-items: center;
-        padding: 64px 0;
+        flex-wrap: wrap;
+        gap: 10px;
       }
-
-      .hero-content {
+      .footer {
+        margin-top: 32px;
+        border-top: 1px solid var(--border);
+        background: var(--surface);
+      }
+      .footer-inner {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 48px;
-      }
-      .hero-content2 {
-        display: flex;
-        
-        align-items: center;
-        gap: 48px;
-      }
-
-      .hero-text {
-        width: 100%;
+        gap: 12px;
+        padding: 24px 0;
         text-align: center;
       }
-      /* .hero-text2 {
-        width: 100%;
-        text-align: center;
-      } */
-
-      .hero-label {
-        display: inline-block;
-        margin-bottom: 16px;
-        margin-top: 18px;
-        color: var(--secondary);
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
+      .footer-brand strong {
+        color: var(--primary);
       }
-
-      .hero-title {
-        margin-bottom: 20px;
-        color: var(--tertiary);
-        font-size: 42px;
-        line-height: 1.15;
-        font-weight: 700;
+      .footer-brand p {
+        color: var(--muted);
+        font-size: 13px;
       }
-
-      .hero-title span {
-        color: var(--secondary);
-      }
-
-      .hero-description {
-        max-width: 650px;
-        margin: 0 auto;
-        color: #475569;
-        font-size: 17px;
-        line-height: 1.8;
-      }
-      .hero-description2 {
-        text-align: center;
-        margin: 0 auto;
-        color: #475569;
-        font-size: 17px;
-        line-height: 1.8;
-      }
-
-      .hero-actions {
+      .footer-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 14px;
-        margin-top: 32px;
+        gap: 8px;
       }
-
-      .primary-btn,
-      .secondary-btn {
-        display: inline-block;
-        padding: 13px 22px;
-        font-size: 15px;
-        font-weight: 700;
-        border-radius: var(--radius);
-        transition: 0.3s;
+      .footer-links a {
+        padding: 6px 9px;
+        border-radius: 7px;
+        color: var(--accent);
+        font-weight: 600;
       }
-
-      .primary-btn {
-        color: #ffffff;
-        background: var(--tertiary);
+      .footer-links a:hover {
+        background: var(--bg);
+        color: var(--primary);
       }
-
-      .primary-btn:hover {
-        background: #2e1258;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 14px rgba(57, 24, 108, 0.24);
-      }
-
-      .secondary-btn {
-        color: var(--tertiary);
-        background: transparent;
-        border: 1px solid var(--tertiary);
-      }
-
-      .secondary-btn:hover {
-        background: var(--surface-container-high);
-        transform: translateY(-2px);
-      }
-
-      .hero-image-container {
-        width: 100%;
-        max-width: 650px;
-      }
-
-      .hero-image {
-        display: block;
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        border-radius: 20px;
-        box-shadow: 0 14px 35px rgba(15, 23, 42, 0.14);
-      }
-
-      /* =========================
-       RESPONSIVE DESIGN
-    ========================= */
-
       @media (min-width: 768px) {
         .page-shell {
-          padding-left: 40px;
-          padding-right: 40px;
+          padding: 0 40px;
         }
-
         .menu-btn {
           display: none;
         }
-
         .desktop-nav-area {
           display: flex;
         }
-
         .mobile-menu {
           display: none !important;
         }
-
-        .hero-content {
+        .grid-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .footer-inner {
           flex-direction: row;
           justify-content: space-between;
-          gap: 60px;
-        }
-
-        .hero-text {
-          flex: 1;
           text-align: left;
         }
-
-        .hero-description {
-          margin: 0 auto;
-        }
-        .hero-description2 {
-          margin: 0 auto;
-        }
-
-        .hero-actions {
-          justify-content: flex-start;
-        }
-
-        .hero-image-container {
-          flex: 1;
-        }
       }
-
-      @media (min-width: 1024px) {
-        .hero-title {
-          font-size: 56px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .hero-section {
-          padding: 44px 0;
-        }
-
-        .hero-title {
-          font-size: 36px;
-        }
-
-        .hero-description {
-          font-size: 15px;
-        }
-        .hero-description2 {
-          font-size: 15px;
-        }
-
-        .hero-actions {
+      @media (max-width: 520px) {
+        .actions {
           flex-direction: column;
         }
-
-        .primary-btn,
-        .secondary-btn {
+        .actions .btn {
           width: 100%;
-          text-align: center;
+        }
+      }
+
+      .hero {
+        padding: 56px 0;
+      }
+      .hero-grid {
+        display: grid;
+        gap: 36px;
+        align-items: center;
+      }
+      .hero-title {
+        color: var(--primary);
+        font-size: clamp(36px, 7vw, 60px);
+        line-height: 1.08;
+      }
+      .hero-title span {
+        color: var(--accent);
+      }
+      .hero-copy {
+        max-width: 680px;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.75;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+      }
+      .hero-image {
+        display: block;
+        width: 100%;
+        max-height: 470px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+      .how-grid {
+        display: grid;
+        gap: 14px;
+      }
+      .step {
+        padding: 18px;
+      }
+      .step-number {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--soft);
+        color: var(--primary);
+        font-weight: 700;
+      }
+      .step h3 {
+        margin-top: 12px;
+        color: var(--primary);
+      }
+      .step p {
+        margin-top: 6px;
+        color: var(--muted);
+      }
+      @media (min-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1.05fr 0.95fr;
+        }
+        .how-grid {
+          grid-template-columns: repeat(3, 1fr);
         }
       }
     </style>
   </head>
-
   <body>
-    <!-- Navbar -->
     <header class="topbar">
       <div class="page-shell topbar-inner">
         <div class="brand-area">
@@ -420,138 +541,141 @@
             class="menu-btn"
             id="menuButton"
             type="button"
-            aria-label="Open menu"
+            aria-label="Toggle menu"
             aria-expanded="false"
+            aria-controls="mobileMenu"
           >
-            <span class="material-symbols-outlined" id="menuIcon">menu</span>
-          </button>
-
-          <h1 class="brand">ExamFlow</h1>
+            <span class="material-symbols-outlined" id="menuIcon"
+              >menu</span
+            ></button
+          ><a href="index.html" class="brand">ExamFlow</a>
         </div>
-
-        <!-- Desktop menu -->
         <div class="desktop-nav-area">
-          <nav class="nav-links">
-            <a href="index.html">HOME</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="generator.html">Generator</a>
-            <a href="dashboard.html">Exam Halls</a>
-            <a href="dashboard.html">Reports</a>
+          <nav class="nav-links" aria-label="Main navigation">
+            <a href="index.html" class="active">Home</a
+            ><a href="dashboard.html" class="">Dashboard</a
+            ><a href="generator.html" class="">Generator</a
+            ><a href="dashboard.html#room-list" class="">Exam Halls</a
+            ><a href="generator.html#results" class="">Reports</a>
           </nav>
-
-          <div class="profile">
-            <a href="profile.html">
-              <img src="DPlogo.png" alt="Profile" />
-            </a>
-          </div>
+          <a class="profile-link" href="profile.html" aria-label="Profile"
+            ><span class="material-symbols-outlined"><img src="DPlogo.png" alt="P"></span></a
+          >
         </div>
       </div>
-
-      <!-- Mobile menu -->
-      <div class="mobile-menu" id="mobileMenu">
-        <nav class="mobile-nav-links">
-          <a href="index.html">HOME</a>
-          <a href="dashboard.html">Dashboard</a>
-          <a href="generator.html">Generator</a>
-          <a href="dashboard.html">Exam Halls</a>
-          <a href="dashboard.html">Reports</a>
-          <a href="profile.html">Profile</a>
+      <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+        <nav class="mobile-nav-links" aria-label="Mobile navigation">
+          <a href="index.html" class="active">Home</a
+          ><a href="dashboard.html" class="">Dashboard</a
+          ><a href="generator.html" class="">Generator</a
+          ><a href="dashboard.html#room-list" class="">Exam Halls</a
+          ><a href="generator.html#results" class="">Reports</a
+          ><a href="profile.html" class="">Profile</a>
         </nav>
       </div>
     </header>
-
-    <!-- Hero Section -->
     <main>
-      <section class="hero-section">
-        <div class="page-shell hero-content">
-          <div class="hero-text">
-            <span class="hero-label">ExamFlow </span>
-
-            <h2 class="hero-title">
-              Create Exam Seating Plans
-              <span>Quickly and Easily</span>
-            </h2>
-
-            <p class="hero-description">
+      <section class="hero">
+        <div class="page-shell hero-grid">
+          <div>
+            <span class="eyebrow">ExamFlow</span>
+            <h1 class="hero-title">
+              Create Exam Seating Plans <span>Quickly and Easily</span>
+            </h1>
+            <p class="hero-copy">
               Generate a clear and organized seating arrangement for examination
-              rooms in just a few steps. Add room details, enter student
-              information, and create an accurate seating plan automatically.
+              rooms in a few steps. Add room details, enter student information,
+              and create an accurate seating plan automatically.
             </p>
-
             <div class="hero-actions">
-              <a href="dashboard.html" class="primary-btn">
-                Generate Seating Plan
-              </a>
-
-              <a href="profile.html" class="secondary-btn"> SignIn / SignUp </a>
+              <a class="btn btn-primary" href="dashboard.html"
+                ><span class="material-symbols-outlined">settings_suggest</span
+                >Start Planning</a
+              ><a class="btn btn-light" href="#how-it-works">Learn More</a>
             </div>
           </div>
-
-          <div class="hero-image-container">
-            <img
-              src="classroom.png"
-              class="hero-image"
-              alt="Students seated in a classroom for an examination"
-            />
+          <img
+            class="hero-image"
+            src="classroom.png"
+            alt="Students seated in an examination room"
+            onerror="this.style.display = 'none'"
+          />
+        </div>
+      </section>
+      <section class="section-pad" id="how-it-works">
+        <div class="page-shell">
+          <div class="page-header">
+            <span class="eyebrow">How it works</span>
+            <h2 class="page-title">Generate a plan in three simple steps</h2>
+          </div>
+          <div class="how-grid">
+            <article class="card step">
+              <span class="step-number">1</span>
+              <h3>Add room details</h3>
+              <p>Enter each room number and the number of seats available.</p>
+            </article>
+            <article class="card step">
+              <span class="step-number">2</span>
+              <h3>Add class details</h3>
+              <p>
+                Enter class names, student totals, and starting roll numbers.
+              </p>
+            </article>
+            <article class="card step">
+              <span class="step-number">3</span>
+              <h3>Generate and print</h3>
+              <p>
+                Create the seating distribution and save it as a PDF when
+                needed.
+              </p>
+            </article>
           </div>
         </div>
       </section>
     </main>
-    <section class="hero-section2">
-      <div class="page-shell hero-content2">
-        <div class="hero-text2">
-          <span class="hero-label">How It Works </span>
-
-          <h2 class="hero-title">
-            Generate Your Seating Plan in Three Simple Steps
-          </h2>
-<span class="hero-label">1. Add Room Details </span>
-          <p class="hero-description2">
-            
-            Enter the room number and the total number of seats available in
-            each examination room.
-          </p><span class="hero-label">2. Enter Student Details</span>
-          <p class="hero-description2">
-            
-            Add the class or stream name, total number of students, and starting roll number.
-          </p><span class="hero-label">3. Generate the Plan </span>
-          <p class="hero-description2">
-            
-          Click the generate button to automatically assign students to rooms and view the final seating arrangement.
-          </p>
-
-          <!-- <div class="hero-actions">
-            <a href="generator.html" class="primary-btn">
-              Generate Seating Plan
-            </a>
-
-            <a href="#learn-more" class="secondary-btn"> Learn More </a>
-          </div>
-        </div> -->
-
-        <!-- <div class="hero-image-container">
-          <img
-            src="classroom.png"
-            class="hero-image"
-            alt="Students seated in a classroom for an examination"
-          />
-        </div> -->
+    <footer class="footer">
+      <div class="page-shell footer-inner">
+        <div class="footer-brand">
+          <strong>ExamFlow Systems</strong>
+          <p>Exam seating plan generator</p>
+        </div>
+        <nav class="footer-links">
+          <a href="index.html">Home</a><a href="dashboard.html">Dashboard</a
+          ><a href="generator.html">Generator</a
+          ><a href="profile.html">Profile</a>
+        </nav>
       </div>
-    </section>
-    <!-- Mobile Menu JavaScript -->
+    </footer>
     <script>
-      const menuButton = document.getElementById("menuButton");
-      const mobileMenu = document.getElementById("mobileMenu");
-      const menuIcon = document.getElementById("menuIcon");
-
-      menuButton.addEventListener("click", function () {
-        mobileMenu.classList.toggle("show");
-
-        const isMenuOpen = mobileMenu.classList.contains("show");
-
-        menuIcon.textContent = isMenuOpen ? "close" : "menu";
-        menuButton.setAttribute("aria-expanded", isMenuOpen);
-      });
+      function setupMobileMenu() {
+        const button = document.getElementById("menuButton");
+        const menu = document.getElementById("mobileMenu");
+        const icon = document.getElementById("menuIcon");
+        if (!button || !menu || !icon) return;
+        const close = () => {
+          menu.classList.remove("show");
+          icon.textContent = "menu";
+          button.setAttribute("aria-expanded", "false");
+          menu.setAttribute("aria-hidden", "true");
+        };
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const open = menu.classList.toggle("show");
+          icon.textContent = open ? "close" : "menu";
+          button.setAttribute("aria-expanded", String(open));
+          menu.setAttribute("aria-hidden", String(!open));
+        });
+        menu
+          .querySelectorAll("a")
+          .forEach((link) => link.addEventListener("click", close));
+        document.addEventListener("click", (event) => {
+          if (!menu.contains(event.target) && event.target !== button) close();
+        });
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 768) close();
+        });
+      }
+      setupMobileMenu();
     </script>
   </body>
 </html>
