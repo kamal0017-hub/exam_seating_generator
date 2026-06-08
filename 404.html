@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>404 - Page Not Found | ExamFlow</title>
+
+    <style>
+        :root {
+            --tertiary: #39186c;
+            --tertiary-hover: #2b1055;
+            --background: #ffffff;
+            --text-primary: #171717;
+            --text-secondary: #5f6368;
+            --button-text: #ffffff;
+            --container-max: 1200px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        /* Main section */
+        .not-found-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 24px;
+            animation: pageFadeIn 1s ease-in-out;
+        }
+
+        /* Animated background circles */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(57, 24, 108, 0.1);
+            z-index: 0;
+        }
+
+        .circle-one {
+            width: 280px;
+            height: 280px;
+            top: -80px;
+            left: -80px;
+            animation: circleFloat 6s ease-in-out infinite;
+        }
+
+        .circle-two {
+            width: 220px;
+            height: 220px;
+            right: -60px;
+            bottom: -60px;
+            animation: circleFloat 5s ease-in-out infinite reverse;
+        }
+
+        /*.circle-three {*/
+        /*    width: 100px;*/
+        /*    height: 100px;*/
+        /*    top: 20%;*/
+        /*    right: 10%;*/
+        /*    animation: circleFloat 4s ease-in-out infinite;*/
+        /*}*/
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .not-found-content {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Animated GIF area */
+        .error-image {
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            background-image: url("https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            animation: imageScaleIn 1s ease-out;
+        }
+
+        /* Floating 404 text */
+        .error-code {
+            padding-top: 32px;
+            color: var(--tertiary);
+            font-size: 96px;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 6px 14px rgba(57, 24, 108, 0.2);
+            animation: errorFloat 3s ease-in-out infinite;
+        }
+
+        /* Message area entrance animation */
+        .message-area {
+            margin-top: -50px;
+            animation: slideUp 1.1s ease-out;
+        }
+
+        .message-area h2 {
+            margin-bottom: 16px;
+            color: var(--tertiary);
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .message-area p {
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Button animation */
+        .home-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--tertiary);
+            box-shadow: 0 6px 15px rgba(57, 24, 108, 0.25);
+            color: var(--button-text);
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition:
+                background-color 0.3s ease,
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+
+        .home-button:hover {
+            background-color: var(--tertiary-hover);
+            box-shadow: 0 10px 22px rgba(57, 24, 108, 0.35);
+            transform: translateY(-4px) scale(1.05);
+            animation: none;
+        }
+
+        .home-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .home-button:focus-visible {
+            outline: 3px solid rgba(57, 24, 108, 0.35);
+            outline-offset: 4px;
+        }
+
+        /* Animation keyframes */
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes imageScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(45px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes errorFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+
+        @keyframes circleFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-24px) translateX(14px);
+            }
+        }
+
+        @keyframes buttonPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 6px 15px rgba(57, 24, 108, 0.25);
+            }
+
+            50% {
+                box-shadow: 0 8px 26px rgba(57, 24, 108, 0.48);
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 768px) {
+            .error-image {
+                height: 350px;
+            }
+
+            .error-code {
+                padding-top: 28px;
+                font-size: 80px;
+            }
+
+            .message-area h2 {
+                font-size: 28px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .not-found-section {
+                padding: 16px;
+            }
+
+            .error-image {
+                height: 250px;
+            }
+
+            .error-code {
+                padding-top: 24px;
+                font-size: 64px;
+            }
+
+            .message-area {
+                margin-top: -30px;
+            }
+
+            .message-area h2 {
+                font-size: 24px;
+            }
+
+            .circle-one {
+                width: 190px;
+                height: 190px;
+            }
+
+            .circle-two {
+                width: 160px;
+                height: 160px;
+            }
+
+            .circle-three {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        /* Accessibility: disable animations when requested by the user */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="not-found-section">
+
+        <!-- Decorative animated circles -->
+        <div class="circle circle-one"></div>
+        <div class="circle circle-two"></div>
+        <div class="circle circle-three"></div>
+
+        <div class="container">
+            <div class="not-found-content">
+
+                <div class="error-image" aria-hidden="true">
+                    <h1 class="error-code">404</h1>
+                </div>
+
+                <div class="message-area">
+                    <h2>Looks like you're lost</h2>
+
+                    <p>
+                        The page you are looking for is not available!
+                    </p>
+
+                    <a href="index.html" class="home-button">
+                        Go to Home
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
